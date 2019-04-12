@@ -19,7 +19,7 @@ public class Course {
 
 	private String courseName;
 
-	private Long courseTeacherId;
+	private Long courseTeacherId;//课堂的教师用户id
 
 	private Integer courseStatus;
 

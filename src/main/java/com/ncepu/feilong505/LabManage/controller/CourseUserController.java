@@ -23,22 +23,41 @@ import com.ncepu.feilong505.LabManage.service.CourseUserService;
 @RestController
 @RequestMapping(value = "/courseuser", method = RequestMethod.POST)
 public class CourseUserController {
-	@Autowired
-	CourseUserService courseUserService;
+    @Autowired
+    CourseUserService courseUserService;
 
-	/**
-	 * 
-	 * TODO 用户和课堂绑定
-	 * 
-	 * @author xtysummer1121@foxmail.com
-	 * @date 2019年3月25日
-	 * @param userId
-	 * @param courseId
-	 * @return
-	 */
-	@RequestMapping("/getin")
-	public String getInCourse(@RequestBody CourseUser courseUser) {
-		return JSONObject
-				.toJSONString(courseUserService.addCourseUser(courseUser.getUserId(), courseUser.getCourseId()));
-	}
+    /**
+     * 
+     * TODO 用户和课堂绑定
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年3月25日
+     * @param userId
+     * @param courseId
+     * @return
+     */
+    @RequestMapping("/getin")
+    public String getInCourse(@RequestBody CourseUser courseUser) {
+	return JSONObject
+		.toJSONString(courseUserService.addCourseUser(courseUser.getUserId(), courseUser.getCourseId()));
+    }
+
+    /**
+     * 
+     * TODO 获取用户的课堂列表
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月12日
+     * @param bean
+     * @return
+     */
+    @RequestMapping("/getcourselist")
+    public String findCourseWithUser(@RequestBody courseUserBean bean) {
+	return JSONObject.toJSONString(courseUserService.findCourseWithUser(bean.userId, bean.status));
+    }
+
+    static public class courseUserBean {
+	public Long userId;// 用户id
+	public Integer status;// 课堂状态
+    }
 }
