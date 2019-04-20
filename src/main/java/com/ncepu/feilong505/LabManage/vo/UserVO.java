@@ -2,7 +2,9 @@ package com.ncepu.feilong505.LabManage.vo;
 
 import com.ncepu.feilong505.LabManage.pojo.User;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * TODO user信息的前端展示信息
@@ -11,15 +13,18 @@ import lombok.Data;
  * @date 2019年3月18日
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserVO {
-    Long id;
-    String userName;
-    String userClass;
-    String userMajor;
-    String userPhone;
-    String userWxid;
-    String userNum;
-    String userDetail;
+    private Long id;
+    private String userName;
+    private String userClass;
+    private String userMajor;
+    private String userPhone;
+    private String userWxid;
+    private String userNum;
+    private String userDetail;
+    private Integer groupId;
 
     /**
      * 
@@ -49,4 +54,5 @@ public class UserVO {
 	}
 
     }
+    
 }

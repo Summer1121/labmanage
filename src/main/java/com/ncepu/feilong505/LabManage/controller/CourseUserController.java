@@ -56,8 +56,24 @@ public class CourseUserController {
 	return JSONObject.toJSONString(courseUserService.findCourseWithUser(bean.userId, bean.status));
     }
 
+    /**
+     * 
+     * TODO 获取一个课堂的用户列表
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月18日
+     * @param bean
+     * @return
+     */
+    @RequestMapping("/getuserlist")
+    public String findUserWithCourse(@RequestBody courseUserBean bean) {
+	return JSONObject.toJSONString(courseUserService.findUserWithCourse(bean.courseId));
+    }
+
     static public class courseUserBean {
 	public Long userId;// 用户id
 	public Integer status;// 课堂状态
+	public Long courseId;// 课堂id
     }
+
 }

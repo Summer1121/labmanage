@@ -11,6 +11,17 @@
 		<result column="course_is_group" jdbcType="INTEGER" property="courseIsGroup" />
 		<result column="course_attend_sum" jdbcType="INTEGER" property="courseAttendSum" />
 	</resultMap>
+	<resultMap id="CourseVOmap" type="com.ncepu.feilong505.LabManage.vo.CourseVO">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="course_name" jdbcType="VARCHAR" property="courseName" />
+		<result column="course_teacher_id" jdbcType="BIGINT" property="teacherUserId" />
+		<result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+		<result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
+		<result column="course_status" jdbcType="INTEGER" property="courseStatus" />
+		<result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime" />
+		<result column="course_detail" jdbcType="VARCHAR" property="courseDetail" />
+	</resultMap>
+
 	<sql id="Example_Where_Clause">
 		<where>
 			<foreach collection="oredCriteria" item="criteria" separator="or">
@@ -77,6 +88,34 @@
 		id, course_name, course_teacher_id, course_status, course_build_time, course_detail,
 		course_is_group, course_attend_sum
 	</sql>
+
+	<select id="selectCourseByUser" resultMap="CourseVOmap">
+		select
+		b.id
+		,b.course_teacher_id
+		,b.course_name
+		,b.course_status
+		,user.user_name teacher_name
+		,user.user_phone
+		teacher_phone
+		from
+		(
+		select * from course
+		<where>
+			id in
+			(
+			select course_user.course_id
+			from course_user
+			where
+			course_user.user_id = #{userId}
+			)
+			<if test="status != null">
+				and course_status= #{status}
+			</if>
+		</where>
+		) b,user
+		where user.id = b.course_teacher_id
+	</select>
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultMap="BaseResultMap"
 	>

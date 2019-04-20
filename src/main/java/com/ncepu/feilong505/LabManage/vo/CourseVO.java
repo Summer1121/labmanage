@@ -9,7 +9,9 @@ import com.ncepu.feilong505.LabManage.mapper.UserMapper;
 import com.ncepu.feilong505.LabManage.pojo.Course;
 import com.ncepu.feilong505.LabManage.pojo.User;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -20,9 +22,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class CourseVO {
-    @Autowired
-    UserMapper userMapper;
     private Long id;
     private String courseName;// 课堂名称
     private Long teacherUserId;// 教师userid

@@ -2,6 +2,8 @@ package com.ncepu.feilong505.LabManage.mapper;
 
 import com.ncepu.feilong505.LabManage.pojo.User;
 import com.ncepu.feilong505.LabManage.pojo.UserExample;
+import com.ncepu.feilong505.LabManage.vo.UserVO;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -29,4 +31,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    List<UserVO> selectListByCourse(Long courseId);
+    
 }

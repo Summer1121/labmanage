@@ -12,7 +12,7 @@
 	<groupId>com.ncepu.feilong505</groupId>
 	<artifactId>LabManage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>LabManage</name>
+	<name>labmanage</name>
 	<description>a manage project for labs of ncepu</description>
 
 	<properties>

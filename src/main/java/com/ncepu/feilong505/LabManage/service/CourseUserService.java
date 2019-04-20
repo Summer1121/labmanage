@@ -67,7 +67,7 @@ public interface CourseUserService {
      * @param courseUser
      * @return
      */
-    public ResponseBody findUserListWithCourse(CourseUser courseUser);
+//    public ResponseBody findUserListWithCourse(CourseUser courseUser);
 
     /**
      * 
@@ -80,4 +80,15 @@ public interface CourseUserService {
      * @return
      */
     ResponseBody findCourseWithUser(Long userId, Integer status);
+    
+    /**
+     * 
+     * TODO 通过课堂查询用户信息  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月18日
+     * @param courseId
+     * @return
+     */
+    ResponseBody findUserWithCourse(Long courseId);
+
 }

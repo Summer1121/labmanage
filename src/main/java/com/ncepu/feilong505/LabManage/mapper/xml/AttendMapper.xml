@@ -8,6 +8,13 @@
 		<result column="id" jdbcType="BIGINT" property="id" />
 		<result column="attend_status" jdbcType="INTEGER" property="attendStatus" />
 	</resultMap>
+	<!-- 用于统计签到信息 -->
+	<resultMap id="AttendStatisMap" type="com.ncepu.feilong505.LabManage.vo.attendStatis">
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="attend_time" jdbcType="INTEGER" property="attendTime" />
+	</resultMap>
+
 	<sql id="Example_Where_Clause">
 		<where>
 			<foreach collection="oredCriteria" item="criteria" separator="or">
@@ -75,6 +82,47 @@
 	<sql id="Base_Column_List">
 		attend_course_user_id, attend_arrive_time, attend_leave_time, id, attend_status
 	</sql>
+	<select id="selectAttendStatis" resultMap="AttendStatisMap">
+		with
+		a (id,user_id)as(
+			select 
+				id,
+				user_id
+			from course_user
+			where course_id = #{courseId}
+		),
+		b (attend_time,attend_course_user_id)as(
+			select 
+				count(*) attend_time,
+				attend_course_user_id
+			from attend
+			where attend_course_user_id in
+			(
+				select id
+				from a
+			)
+			group by 
+			attend_course_user_id
+		),
+		c(user_id,user_name) as
+		(
+			select 
+				id user_id,
+				user_name
+			from user
+			where id = any
+			(
+				select user_id
+				from a
+			)
+		)
+		select a.user_id,c.user_name, b.attend_time
+		from a,b,c
+		where b.attend_course_user_id = a.id
+		and c.user_id =a.user_id
+	</select>
+
+
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultMap="BaseResultMap"
 	>

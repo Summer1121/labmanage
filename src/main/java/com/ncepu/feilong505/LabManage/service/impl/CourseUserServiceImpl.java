@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ncepu.feilong505.LabManage.common.ResponseBody;
+import com.ncepu.feilong505.LabManage.controller.CourseUserController.courseUserBean;
 import com.ncepu.feilong505.LabManage.mapper.CourseMapper;
 import com.ncepu.feilong505.LabManage.mapper.CourseUserMapper;
 import com.ncepu.feilong505.LabManage.mapper.UserMapper;
@@ -18,6 +19,7 @@ import com.ncepu.feilong505.LabManage.pojo.CourseUserExample;
 import com.ncepu.feilong505.LabManage.pojo.User;
 import com.ncepu.feilong505.LabManage.service.CourseUserService;
 import com.ncepu.feilong505.LabManage.vo.CourseVO;
+import com.ncepu.feilong505.LabManage.vo.UserVO;
 
 /**
  * TODO
@@ -128,7 +130,7 @@ public class CourseUserServiceImpl implements CourseUserService {
      * com.ncepu.feilong505.LabManage.service.CourseUserService#findCourseUserList(
      * com.ncepu.feilong505.LabManage.pojo.CourseUser)
      */
-    @Override
+//    @Override
     public ResponseBody findUserListWithCourse(CourseUser courseUser) {
 	// TODO Auto-generated method stub
 	return null;
@@ -161,33 +163,64 @@ public class CourseUserServiceImpl implements CourseUserService {
     public ResponseBody findCourseWithUser(Long userId, Integer status) {
 	responseBody = new ResponseBody();
 	try {
-	    CourseUserExample example = new CourseUserExample();
-	    // 查找用户所在的课堂列表
-	    example.createCriteria().andUserIdEqualTo(userId);
-	    List<CourseUser> courseUsers = courseUserMapper.selectByExample(example);
-	    List<CourseVO> courses = new ArrayList<>();
-	    // 检索每个课堂信息，加入结果集
-	    if (courseUsers != null && !courseUsers.isEmpty()) {
-		for (CourseUser cu : courseUsers) {
-		    Course course = courseMapper.selectByPrimaryKey(cu.getId());
-		    if (status != null)
-			if (course == null || course.getCourseStatus() != status)
-			    continue;
-		    CourseVO courseVO = new CourseVO(course);
-		    // 增加教师身份信息
-		    User user = usermapper.selectByPrimaryKey(course.getCourseTeacherId());
-		    courseVO.setTeacherName(user.getUserName()).setTeacherPhone(user.getUserPhone());
-		    courses.add(courseVO);
-		}
-		if (courses.isEmpty())
-		    responseBody.error("本用户未绑定指定状态的课堂");
-		else
-		    responseBody.success(courses);
-	    } else {
-		responseBody.error("本用户未绑定课堂");
+//	    CourseUserExample example = new CourseUserExample();
+//	    // 查找用户所在的课堂列表
+//	    example.createCriteria().andUserIdEqualTo(userId);
+//	    List<CourseUser> courseUsers = courseUserMapper.selectByExample(example);
+//	    List<CourseVO> courses = new ArrayList<>();
+//	    // 检索每个课堂信息，加入结果集
+//	    if (courseUsers != null && !courseUsers.isEmpty()) {
+//		for (CourseUser cu : courseUsers) {
+//		    Course course = courseMapper.selectByPrimaryKey(cu.getCourseId());
+//		    if (status != null)
+//			if (course == null || course.getCourseStatus() != status)
+//			    continue;
+//		    CourseVO courseVO = new CourseVO(course);
+//		    // 增加教师身份信息
+//		    User user = usermapper.selectByPrimaryKey(course.getCourseTeacherId());
+//		    courseVO.setTeacherName(user.getUserName()).setTeacherPhone(user.getUserPhone());
+//		    courses.add(courseVO);
+//		}
+//		if (courses.isEmpty())
+//		    responseBody.error("本用户未绑定指定状态的课堂");
+//		else
+//		    responseBody.success(courses);
+//	    } else {
+//		responseBody.error("本用户未绑定课堂");
+//	    }
+	    List<CourseVO> courseVOs = courseMapper.selectCourseByUser(userId, status);
+	    if (courseVOs != null && !courseVOs.isEmpty()) {
+		responseBody.success(courseVOs);
+	    }
+	    else {
+		responseBody.error("未加入课程");
 	    }
 	} catch (Exception e) {
-	    responseBody.error("发生了错误");
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.CourseUserService#findUserWithCourse(
+     * java.lang.Long)
+     */
+    @Override
+    public ResponseBody findUserWithCourse(Long courseId) {
+	responseBody = new ResponseBody();
+	try {
+	    List<UserVO> userVOs = usermapper.selectListByCourse(courseId);
+	    if (!userVOs.isEmpty()) {
+		responseBody.success(userVOs);
+	    } else {
+		responseBody.error("未找到用户");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
 	    e.printStackTrace();
 	}
 	return responseBody;
