@@ -40,7 +40,7 @@ public interface AttendMapper {
      * @param courseId
      * @return
      */
-    List<Attend> selectAttendByCourse(Long courseId,Integer id);
+    List<AttendStatis> selectAttendByCourse(Long courseId,Long id);
     
     /**
      * 

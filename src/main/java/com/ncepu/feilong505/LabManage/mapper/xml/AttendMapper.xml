@@ -9,7 +9,7 @@
 		<result column="attend_status" jdbcType="INTEGER" property="attendStatus" />
 	</resultMap>
 	<!-- 用于统计签到信息 -->
-	<resultMap id="AttendStatisMap" type="com.ncepu.feilong505.LabManage.vo.attendStatis">
+	<resultMap id="AttendStatisMap" type="com.ncepu.feilong505.LabManage.vo.AttendStatis">
 		<result column="user_id" jdbcType="BIGINT" property="userId" />
 		<result column="user_name" jdbcType="VARCHAR" property="userName" />
 		<result column="attend_time" jdbcType="INTEGER" property="attendTime" />
@@ -85,43 +85,74 @@
 	<select id="selectAttendStatis" resultMap="AttendStatisMap">
 		with
 		a (id,user_id)as(
-			select 
-				id,
-				user_id
-			from course_user
-			where course_id = #{courseId}
+		select
+		id,
+		user_id
+		from course_user
+		where course_id = #{courseId}
 		),
 		b (attend_time,attend_course_user_id)as(
-			select 
-				count(*) attend_time,
-				attend_course_user_id
-			from attend
-			where attend_course_user_id in
-			(
-				select id
-				from a
-			)
-			group by 
-			attend_course_user_id
+		select
+		count(*) attend_time,
+		attend_course_user_id
+		from attend
+		where attend_course_user_id in
+		(
+		select id
+		from a
+		)
+		group by
+		attend_course_user_id
 		),
 		c(user_id,user_name) as
 		(
-			select 
-				id user_id,
-				user_name
-			from user
-			where id = any
-			(
-				select user_id
-				from a
-			)
+		select
+		id user_id,
+		user_name
+		from user
+		where id = any
+		(
+		select user_id
+		from a
+		)
 		)
 		select a.user_id,c.user_name, b.attend_time
 		from a,b,c
 		where b.attend_course_user_id = a.id
-		and c.user_id =a.user_id
+		and
+		c.user_id =a.user_id
 	</select>
-
+	<select id="selectAttendByCourse" resultMap="AttendStatisMap">
+		with
+		a as(
+			select id course_user_id
+			,user_id 
+			from course_user
+			where 
+			course_id = #{courseId}
+		),
+		b as(
+			select attend_course_user_id 
+			from attend
+			where 
+			attend_course_user_id =
+			any (select course_user_id from a)
+			and attend.id = #{id}
+		)
+		
+		select `user`.id,user_name
+		from
+		`user`
+		where `user`.id =
+		any
+		(
+			select user_id 
+			from course_user 
+			where 
+			course_user.id = any 
+				(select * from b)
+		)
+	</select>
 
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultMap="BaseResultMap"

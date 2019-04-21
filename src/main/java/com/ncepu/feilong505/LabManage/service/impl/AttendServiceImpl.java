@@ -155,19 +155,53 @@ public class AttendServiceImpl implements AttendService {
      * lang.Long)
      */
     @Override
-    public ResponseBody findListWithUser(Long courseUserId) {
-	// TODO Auto-generated method stub
-	return null;
+    public ResponseBody findListWithUser(Long userId, Long courseId) {
+	responseBody = new ResponseBody();
+	try {
+	    CourseUserExample courseUserExample = new CourseUserExample();
+	    courseUserExample.createCriteria().andUserIdEqualTo(userId).andCourseIdEqualTo(courseId);
+	    CourseUser courseUser = courseUserMapper.selectByExample(courseUserExample).get(0);
+	    if (courseUser != null) {
+		AttendExample attendExample = new AttendExample();
+		attendExample.createCriteria().andAttendCourseUserIdEqualTo(courseUser.getId());
+		List<Attend> attends = attendMapper.selectByExample(attendExample);
+		if (attends != null && !attends.isEmpty()) {
+		    responseBody.success(attends);
+		} else {
+		    responseBody.error("查无结果");
+		}
+	    } else {
+		responseBody.error("查无结果");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
     }
-    
-    
-    /* (non-Javadoc)
-     * @see com.ncepu.feilong505.LabManage.service.AttendService#findAttendList(java.lang.Long, java.lang.Integer)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.AttendService#findAttendList(java.lang
+     * .Long, java.lang.Integer)
      */
     @Override
-    public ResponseBody findAttendList(Long courseId, Integer id) {
-	// TODO Auto-generated method stub
-	return null;
+    public ResponseBody findAttendList(Long courseId, Long id) {
+	responseBody = new ResponseBody();
+	try {
+	    List<AttendStatis> attendStatis = attendMapper.selectAttendByCourse(courseId, id);
+	    if (attendStatis != null && !attendStatis.isEmpty()) {
+		responseBody.success(attendStatis);
+	    } else {
+		responseBody.error("查无结果");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
     }
 
     /*
@@ -203,7 +237,5 @@ public class AttendServiceImpl implements AttendService {
 	}
 	return responseBody;
     }
-
-   
 
 }

@@ -39,14 +39,15 @@ public interface AttendService {
 
     /**
      * 
-     * TODO 查询某个课堂的某次签到情况 
+     * TODO 查询某个课堂的某次签到情况
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月20日
      * @param courseId
      * @param id
      * @return
      */
-    public ResponseBody findAttendList(Long courseId,Integer id );
+    public ResponseBody findAttendList(Long courseId, Long id);
 
     /**
      * 
@@ -64,11 +65,12 @@ public interface AttendService {
      * TODO 获取某用户在某个班级的签到记录
      * 
      * @author xtysummer1121@foxmail.com
-     * @date 2019年4月20日
+     * @date 2019年4月21日
      * @param userId
+     * @param courseId
      * @return
      */
-    public ResponseBody findListWithUser(Long courseUserId);
+    public ResponseBody findListWithUser(Long userId, Long courseId);
 
     /**
      * 
