@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     CourseUserMapper courseUserMapper;
-    ResponseBody responseBody;
 
     /*
      * (non-Javadoc)
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody WXLogin(User user, HttpServletRequest request) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    UserExample example = new UserExample();
 	    // 直接使用微信号登陆
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody Login(User user, HttpServletRequest request) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    UserExample example = new UserExample();
 	    if (user.getUserPhone() != null && user.getUserPassword() != null) {
@@ -106,7 +105,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody register(User user) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    UserExample example = new UserExample();
 	    // 查找当前微信号是否已存在
@@ -137,7 +136,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody removeUser(User user) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (userMapper.deleteByPrimaryKey(user.getId()) == 1) {
 		responseBody.success();
@@ -159,7 +158,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody editUser(User user) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (userMapper.updateByPrimaryKeySelective(user) == 1) {
 		responseBody.success("修改成功");
@@ -182,7 +181,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseBody findOneUser(User user, int flag) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    User usertemp = userMapper.selectByPrimaryKey(user.getId());
 	    UserVO result = new UserVO(usertemp, 0);
@@ -206,8 +205,9 @@ public class UserServiceImpl implements UserService {
      * .Long, java.lang.Long, java.lang.Integer)
      */
     @Override
-    public ResponseBody findUserList(Long userId, Long courseId, Integer groupId, Integer flag) {
-	responseBody = new ResponseBody();
+    public ResponseBody findUserList(Long userId, Long courseId, Integer groupId, Integer flag)
+	    throws InterruptedException {
+	ResponseBody responseBody = new ResponseBody();
 	if (flag == null)
 	    flag = 0;
 	if (userId != null) {
@@ -238,7 +238,5 @@ public class UserServiceImpl implements UserService {
 	    responseBody.error("缺少参数");
 	return responseBody;
     }
-
-    
 
 }

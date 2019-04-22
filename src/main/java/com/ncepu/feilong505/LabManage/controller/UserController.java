@@ -113,9 +113,10 @@ public class UserController {
      * @date 2019年4月8日
      * @param bean
      * @return
+     * @throws InterruptedException 
      */
     @RequestMapping("/find")
-    public String findUser(@RequestBody UserBean bean) {
+    public String findUser(@RequestBody UserBean bean) throws InterruptedException  {
 	return JSONObject.toJSONString(userService.findUserList(bean.userId, bean.courseId, bean.groupId, bean.flag));
     }
 

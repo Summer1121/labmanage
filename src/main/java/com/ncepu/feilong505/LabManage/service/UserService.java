@@ -95,7 +95,6 @@ public interface UserService {
      * @param flag     信息级别（0~3，级别越高，信息越多）默认为0
      * @return
      */
-    ResponseBody findUserList(Long userId, Long courseId, Integer groupId, Integer flag);
+    ResponseBody findUserList(Long userId, Long courseId, Integer groupId, Integer flag) throws InterruptedException;
 
-    
 }

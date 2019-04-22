@@ -29,8 +29,6 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     TeacherService teacherService;
 
-    ResponseBody responseBody;
-
     /*
      * (non-Javadoc)
      * 
@@ -40,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public ResponseBody addCourse(Course course) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (teacherService.ifTeacher(course.getCourseTeacherId()).getStatus() == 200) {
 		course.setId(null);
@@ -48,8 +46,7 @@ public class CourseServiceImpl implements CourseService {
 		    course.setCourseBuildTime(new Date());
 		courseMapper.insertSelective(course);
 		responseBody.success("添加成功");
-	    }
-	    else {
+	    } else {
 		responseBody.error("用户非教师");
 	    }
 	} catch (Exception e) {
@@ -68,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public ResponseBody editCourse(Course course) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (courseMapper.updateByPrimaryKeySelective(course) == 1)
 		responseBody.success("修改成功");
@@ -91,7 +88,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public ResponseBody deleteCourse(Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (courseMapper.deleteByPrimaryKey(courseId) == 1) {
 		responseBody.success("删除成功");
@@ -114,7 +111,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public ResponseBody findOneCourse(Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    Course result = courseMapper.selectByPrimaryKey(courseId);
 	    if (result != null) {
@@ -138,7 +135,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public ResponseBody findCourseList(Course course) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    CourseExample example = new CourseExample();
 	    // 条件

@@ -82,6 +82,8 @@
 	<sql id="Base_Column_List">
 		attend_course_user_id, attend_arrive_time, attend_leave_time, id, attend_status
 	</sql>
+	
+	<!-- 以下两个sql都使用了cte，对数据库本版本有要求，必须为8.0及以上 -->
 	<select id="selectAttendStatis" resultMap="AttendStatisMap">
 		with
 		a (id,user_id)as(

@@ -39,7 +39,6 @@ public class CourseUserServiceImpl implements CourseUserService {
     @Autowired
     CourseMapper courseMapper;
 
-    ResponseBody responseBody;
 
     /*
      * (non-Javadoc)
@@ -50,7 +49,7 @@ public class CourseUserServiceImpl implements CourseUserService {
      */
     @Override
     public ResponseBody addCourseUser(Long userId, Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 
 	try {
 	    // 查询用户和课程是否存在
@@ -113,7 +112,7 @@ public class CourseUserServiceImpl implements CourseUserService {
      */
     @Override
     public ResponseBody findOneCourseUser(CourseUser courseUser) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    responseBody.success(getCourseUser(courseUser.getUserId(), courseUser.getCourseId()).get(0));
 	} catch (Exception e) {
@@ -161,7 +160,7 @@ public class CourseUserServiceImpl implements CourseUserService {
      */
     @Override
     public ResponseBody findCourseWithUser(Long userId, Integer status) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 //	    CourseUserExample example = new CourseUserExample();
 //	    // 查找用户所在的课堂列表
@@ -211,7 +210,7 @@ public class CourseUserServiceImpl implements CourseUserService {
      */
     @Override
     public ResponseBody findUserWithCourse(Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    List<UserVO> userVOs = usermapper.selectListByCourse(courseId);
 	    if (!userVOs.isEmpty()) {

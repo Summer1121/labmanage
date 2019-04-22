@@ -29,7 +29,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     UserMapper userMapper;
 
-    ResponseBody responseBody;
 
     /*
      * (non-Javadoc)
@@ -40,7 +39,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody addTeacher(Teacher teacher) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    TeacherExample example = new TeacherExample();
 	    example.createCriteria().andTeacherPhoneEqualTo(teacher.getTeacherPhone());
@@ -69,7 +68,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody removeTeacher(Teacher teacher) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (teacherMapper.deleteByPrimaryKey(teacher.getId()) == 1) {
 		responseBody.success();
@@ -91,7 +90,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody editTeacher(Teacher teacher) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    UserExample example = new UserExample();
 	    if (teacherMapper.updateByPrimaryKey(teacher) == 1) {
@@ -114,7 +113,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
 	public ResponseBody findOneTeacher(Teacher teacher,int flag) {
-		responseBody = new ResponseBody();
+		ResponseBody responseBody = new ResponseBody();
 		try {
 			// 查询教师
 			Teacher teacherans = teacherMapper.selectByPrimaryKey(teacher.getId());
@@ -141,7 +140,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody findTeacherList(Teacher teacher) {
-//		responseBody = new ResponseBody();
+//		ResponseBody responseBody = new ResponseBody();
 //		TeacherExample example = new TeacherExample();
 //		example.createCriteria()
 //		teacherMapper.select
@@ -157,7 +156,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody ifTeacher(Long userId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    TeacherExample example = new TeacherExample();
 	    example.createCriteria().andTeacherUserIdEqualTo(userId);
@@ -181,7 +180,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public ResponseBody bindTeacher(String teacherPhone, Long userId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    TeacherExample example = new TeacherExample();
 	    example.createCriteria().andTeacherPhoneEqualTo(teacherPhone);

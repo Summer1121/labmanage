@@ -77,11 +77,27 @@ public class AttendController {
 	return JSONObject.toJSONString(attendService.findAttendList(bean.courseId, bean.id));
     }
 
+    /**
+     * 
+     * TODO 获取某课堂的签到统计  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月21日
+     * @param bean
+     * @return
+     */
     @RequestMapping("/getbycourse")
     public String getListByCourse(@RequestBody attendBean bean) {
 	return JSONObject.toJSONString(attendService.findListWithCourse(bean.courseId));
     }
     
+    /**
+     * 
+     * TODO 获取某用户在某课堂的签到统计  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月21日
+     * @param bean
+     * @return
+     */
     @RequestMapping("/getbyuser")
     public String getListByUser(@RequestBody attendBean bean) {
 	return JSONObject.toJSONString(attendService.findListWithUser(bean.userId, bean.courseId));

@@ -45,8 +45,6 @@ public class AttendServiceImpl implements AttendService {
     @Autowired
     CourseMapper courseMapper;
 
-    ResponseBody responseBody;
-
     /*
      * (non-Javadoc)
      * 
@@ -56,7 +54,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody arrive(Long userId, Long courseId, Long id) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    // 本课堂和用户是否已经绑定
 	    CourseUser courseUser = new CourseUser();
@@ -88,7 +86,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody leave(Long userId, Long courseId, Long id) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    // 本课堂和用户是否已经绑定
 	    CourseUser courseUser = new CourseUser();
@@ -132,7 +130,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody findListWithCourse(Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    List<AttendStatis> attendStatis = attendMapper.selectAttendStatis(courseId);
 	    if (attendStatis != null && !attendStatis.isEmpty()) {
@@ -156,7 +154,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody findListWithUser(Long userId, Long courseId) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    CourseUserExample courseUserExample = new CourseUserExample();
 	    courseUserExample.createCriteria().andUserIdEqualTo(userId).andCourseIdEqualTo(courseId);
@@ -189,7 +187,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody findAttendList(Long courseId, Long id) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    List<AttendStatis> attendStatis = attendMapper.selectAttendByCourse(courseId, id);
 	    if (attendStatis != null && !attendStatis.isEmpty()) {
@@ -213,7 +211,7 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResponseBody createAttendString(Long courseId, int flag) {
-	responseBody = new ResponseBody();
+	ResponseBody responseBody = new ResponseBody();
 	try {
 	    if (flag == 0)// 签到
 	    {
