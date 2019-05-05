@@ -80,15 +80,52 @@ public interface CourseUserService {
      * @return
      */
     ResponseBody findCourseWithUser(Long userId, Integer status);
-    
+
     /**
      * 
-     * TODO 通过课堂查询用户信息  
+     * TODO 通过课堂查询用户信息
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月18日
      * @param courseId
      * @return
      */
     ResponseBody findUserWithCourse(Long courseId);
+
+    /**
+     * 
+     * TODO 通过输入相同的groupKey加入同一个分组
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月3日
+     * @param userId
+     * @param courseId
+     * @param groupKey
+     * @return
+     */
+    ResponseBody groupIn(Long userId, Long courseId, String groupKey);
+
+    /**
+     * 
+     * TODO 通过组号进入分组
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param userId
+     * @param courseId
+     * @param groupId
+     * @return
+     */
+    ResponseBody groupIn(Long userId, Long courseId, Integer groupId);
+    
+    /**
+     * 
+     * TODO 离开当前小组  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param userId
+     * @param courseId
+     * @return
+     */
+    ResponseBody groupOut(Long userId,Long courseId);
 
 }

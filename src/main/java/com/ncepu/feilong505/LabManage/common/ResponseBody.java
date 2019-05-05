@@ -1,5 +1,7 @@
 package com.ncepu.feilong505.LabManage.common;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,7 +13,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class ResponseBody {
+public class ResponseBody implements Serializable{
 
     /**
      * 响应业务状态

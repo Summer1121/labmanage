@@ -1,6 +1,7 @@
 package com.ncepu.feilong505.LabManage.controller;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,6 +69,48 @@ public class CourseUserController {
     @RequestMapping("/getuserlist")
     public String findUserWithCourse(@RequestBody courseUserBean bean) {
 	return JSONObject.toJSONString(courseUserService.findUserWithCourse(bean.courseId));
+    }
+
+    /**
+     * 
+     * TODO 某用户通过输入字符串进入小组（类似于面对面建群）
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @return
+     */
+    @RequestMapping("groupinwithstr")
+    public String getinGroup(@RequestBody Map<String, Object> param) {
+	return JSONObject.toJSONString(courseUserService.groupIn(Long.valueOf((int) param.get("userId")),
+		Long.valueOf((int) param.get("courseId")), (String) param.get("groupKey")));
+    }
+
+    /**
+     * 
+     * TODO 通过组号进入某小组
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param courseUser
+     * @return
+     */
+    @RequestMapping("groupinwithid")
+    public String getinGroup(@RequestBody CourseUser courseUser) {
+	return JSONObject.toJSONString(
+		courseUserService.groupIn(courseUser.getUserId(), courseUser.getCourseId(), courseUser.getGroupId()));
+    }
+
+    /**
+     * 
+     * TODO 退出某分组  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param courseUser
+     * @return
+     */
+    @RequestMapping("groupout")
+    public String quitGroup(@RequestBody CourseUser courseUser) {
+	return JSONObject.toJSONString(courseUserService.groupOut(courseUser.getUserId(), courseUser.getCourseId()));
     }
 
     static public class courseUserBean {

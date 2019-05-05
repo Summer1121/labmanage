@@ -1,5 +1,6 @@
 package com.ncepu.feilong505.LabManage.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -14,16 +15,10 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CourseNotice {
-    private Long id;
+public class AppConfig  implements Serializable{
+    private Integer id;
 
-    private Long userId;
+    private String appId;
 
-    private Long courseId;
-
-    private String courseNoticeContent;
-
-    private Date publishTime;
-
-    private Date updateTime;
+    private String secret;
 }

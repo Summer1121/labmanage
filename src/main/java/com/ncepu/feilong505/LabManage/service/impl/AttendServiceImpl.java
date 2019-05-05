@@ -3,7 +3,9 @@ package com.ncepu.feilong505.LabManage.service.impl;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,11 +64,18 @@ public class AttendServiceImpl implements AttendService {
 	    courseUser.setCourseId(courseId);
 	    courseUser = (CourseUser) courseUserServce.findOneCourseUser(courseUser).getData();
 	    if (courseUser != null) {// 如果已经绑定
-		// 创建签到信息
-		Attend record = new Attend().setId(id).setAttendCourseUserId(courseUser.getId())
-			.setAttendArriveTime(new Date()).setAttendStatus(0);
-		attendMapper.insert(record);
-		responseBody.success("签到成功");
+		//查看是否已经签到
+		AttendExample attendExample = new AttendExample();
+		attendExample.createCriteria().andAttendCourseUserIdEqualTo(courseUser.getId());
+		if (attendMapper.selectByExample(attendExample).isEmpty()) {//如果未签到
+		    // 创建签到信息
+		    Attend record = new Attend().setId(id).setAttendCourseUserId(courseUser.getId())
+			    .setAttendArriveTime(new Date()).setAttendStatus(0);
+		    attendMapper.insert(record);
+		    responseBody.success("签到成功");
+		} else {
+		    responseBody.error("请勿重复签到");
+		}
 	    } else {
 		responseBody.error("本课堂和用户未绑定");
 	    }
@@ -186,13 +195,53 @@ public class AttendServiceImpl implements AttendService {
      * .Long, java.lang.Integer)
      */
     @Override
-    public ResponseBody findAttendList(Long courseId, Long id) {
+    public ResponseBody findAttendList(Long courseId, Long id, Integer flag) {
 	ResponseBody responseBody = new ResponseBody();
 	try {
-	    List<AttendStatis> attendStatis = attendMapper.selectAttendByCourse(courseId, id);
+	    if (flag == null)
+		flag = 0;
+	    List<AttendStatis> attendStatis = attendMapper.selectAttendByCourse(courseId, id, flag);
 	    if (attendStatis != null && !attendStatis.isEmpty()) {
 		responseBody.success(attendStatis);
 	    } else {
+		responseBody.error("查无结果");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.AttendService#getAttendCount(java.lang
+     * .Long, java.lang.Long)
+     */
+    @Override
+    public ResponseBody getAttendCount(Long courseId, Long id) {
+	Map<String, Integer> result = new HashMap<String, Integer>();
+	ResponseBody responseBody = new ResponseBody();
+	try {
+	    // 获取签到人数
+	    int arrive = attendMapper.selectAttendCount(courseId, id);
+
+	    // 获取课堂总人数
+	    CourseUserExample courseUserExample = new CourseUserExample();
+	    courseUserExample.createCriteria().andCourseIdEqualTo(courseId);
+	    int total = (int) courseUserMapper.countByExample(courseUserExample);
+	    // 获取未签到人数
+	    int notArrive = total - arrive;
+
+	    result.put("arrive", arrive);
+	    result.put("total", total);
+	    result.put("notArrive", notArrive);
+
+	    if (!result.isEmpty())
+		responseBody.success(result);
+	    else {
 		responseBody.error("查无结果");
 	    }
 	} catch (Exception e) {

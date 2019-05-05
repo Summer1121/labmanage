@@ -33,6 +33,8 @@ public class CourseVO {
     private Integer courseStatus;// 课堂状态
     private Date courseBuildTime;// 课堂创建时间
     private String courseDetail;// 课堂详情
+    private Integer studentNum; //学生数量
+	
 
     public CourseVO(Course course) {
 	this.id = course.getId();

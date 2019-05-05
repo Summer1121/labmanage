@@ -66,7 +66,8 @@ public class AttendController {
 
     /**
      * 
-     * TODO 获取某次签到的列表  
+     * TODO 获取某次签到的列表
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月21日
      * @param bean
@@ -74,12 +75,26 @@ public class AttendController {
      */
     @RequestMapping("/getnowlist")
     public String getNowAttendList(@RequestBody attendBean bean) {
-	return JSONObject.toJSONString(attendService.findAttendList(bean.courseId, bean.id));
+	return JSONObject.toJSONString(attendService.findAttendList(bean.courseId, bean.id, bean.flag));
     }
 
     /**
      * 
-     * TODO 获取某课堂的签到统计  
+     * TODO 获取某次签到的数据统计  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月27日
+     * @param bean
+     * @return
+     */
+    @RequestMapping("/getcount")
+    public String getAttendCount(@RequestBody attendBean bean) {
+	return JSONObject.toJSONString(attendService.getAttendCount(bean.courseId, bean.id));
+    }
+
+    /**
+     * 
+     * TODO 获取某课堂的签到统计
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月21日
      * @param bean
@@ -89,10 +104,11 @@ public class AttendController {
     public String getListByCourse(@RequestBody attendBean bean) {
 	return JSONObject.toJSONString(attendService.findListWithCourse(bean.courseId));
     }
-    
+
     /**
      * 
-     * TODO 获取某用户在某课堂的签到统计  
+     * TODO 获取某用户在某课堂的签到统计
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月21日
      * @param bean
@@ -102,11 +118,13 @@ public class AttendController {
     public String getListByUser(@RequestBody attendBean bean) {
 	return JSONObject.toJSONString(attendService.findListWithUser(bean.userId, bean.courseId));
     }
+
     static public class attendBean {
 	public Long courseId;
 	public Long userId;
 	public Long id;
 	public Integer flag;// 用于判定生成二维码的类别
+			    // 用于在获取签到列表时选择签到者还是未签到者
     }
 
 }

@@ -78,6 +78,18 @@
 	<sql id="Base_Column_List">
 		id, course_id, user_id, group_id
 	</sql>
+	
+	<select id="selectMaxGroupId" resultType="INTEGER">
+	select max(group_id)
+	from
+	course_user
+	where id=#{id}
+	group by group_id
+	</select>
+	
+	
+	
+	
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseUserExample"
 		resultMap="BaseResultMap">

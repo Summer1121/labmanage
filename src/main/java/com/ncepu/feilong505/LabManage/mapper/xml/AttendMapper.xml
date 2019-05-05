@@ -13,6 +13,9 @@
 		<result column="user_id" jdbcType="BIGINT" property="userId" />
 		<result column="user_name" jdbcType="VARCHAR" property="userName" />
 		<result column="attend_time" jdbcType="INTEGER" property="attendTime" />
+		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
+		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
+
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -82,7 +85,7 @@
 	<sql id="Base_Column_List">
 		attend_course_user_id, attend_arrive_time, attend_leave_time, id, attend_status
 	</sql>
-	
+
 	<!-- 以下两个sql都使用了cte，对数据库本版本有要求，必须为8.0及以上 -->
 	<select id="selectAttendStatis" resultMap="AttendStatisMap">
 		with
@@ -90,12 +93,14 @@
 		select
 		id,
 		user_id
-		from course_user
+		from
+		course_user
 		where course_id = #{courseId}
 		),
 		b (attend_time,attend_course_user_id)as(
 		select
-		count(*) attend_time,
+		count(*)
+		attend_time,
 		attend_course_user_id
 		from attend
 		where attend_course_user_id in
@@ -103,23 +108,30 @@
 		select id
 		from a
 		)
-		group by
+		group
+		by
 		attend_course_user_id
 		),
-		c(user_id,user_name) as
+		c(user_id,
+		user_name,
+		user_class,
+		user_num) as
 		(
 		select
 		id user_id,
-		user_name
-		from user
+		user_name,
+		user_class,
+		user_num
+		from `user`
 		where id = any
 		(
 		select user_id
 		from a
 		)
 		)
-		select a.user_id,c.user_name, b.attend_time
-		from a,b,c
+		select c.*, b.attend_time
+		from
+		a,b,c
 		where b.attend_course_user_id = a.id
 		and
 		c.user_id =a.user_id
@@ -127,32 +139,63 @@
 	<select id="selectAttendByCourse" resultMap="AttendStatisMap">
 		with
 		a as(
-			select id course_user_id
-			,user_id 
-			from course_user
-			where 
-			course_id = #{courseId}
+		select id course_user_id
+		,user_id
+		from course_user
+		where
+		course_id = #{courseId}
 		),
 		b as(
-			select attend_course_user_id 
-			from attend
-			where 
-			attend_course_user_id =
-			any (select course_user_id from a)
-			and attend.id = #{id}
+		select attend_course_user_id
+		from attend
+		where
+		attend_course_user_id =
+		any (select course_user_id from
+		a)
+		and attend.id = #{id}
 		)
-		
-		select `user`.id,user_name
-		from
-		`user`
+		select
+		id user_id,
+		user_name,
+		user_class,
+		user_num
+		from `user`
 		where `user`.id =
 		any
 		(
-			select user_id 
-			from course_user 
+		select user_id
+		from course_user
+		where
+		<if test="flag == 0">
+			course_user.id = any
+			(select * from b)
+		</if>
+		<if test="flag == 1">
+			course_user.id
+			not in
+			(select * from b)
+		</if>
+		)
+	</select>
+
+	<select id="selectAttendCount" resultType="java.lang.Integer">
+		with
+			a as(
+			select id course_user_id
+			,user_id
+			from course_user
+			where
+			course_id = #{courseId}
+		)
+		select count(*) 
+		from a
+		where exists
+		(
+			select * 
+			from attend
 			where 
-			course_user.id = any 
-				(select * from b)
+			attend.attend_course_user_id = a.course_user_id
+			and id = #{id}
 		)
 	</select>
 

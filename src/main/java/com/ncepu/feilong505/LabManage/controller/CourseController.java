@@ -1,9 +1,14 @@
 package com.ncepu.feilong505.LabManage.controller;
 
+import java.util.Map;
+
+import javax.xml.ws.RequestWrapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -77,6 +82,33 @@ public class CourseController {
     public String findCourseList(@RequestBody Course course) {
 	return JSONObject.toJSONString(courseService.findCourseList(course));
     }
-    
-    
+
+    /**
+     * 
+     * TODO 查询课堂分组状态
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月3日
+     * @param course
+     * @return
+     */
+    @RequestMapping("getgroupconfig")
+    public String isGrouped(@RequestBody Course course) {
+	return JSONObject.toJSONString(courseService.ifGroup(course.getId()));
+    }
+
+    /**
+     * 
+     * TODO 修改课堂分组状态
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月3日
+     * @param param Long id,Integer status
+     * @return
+     */
+    @RequestMapping("putgroupconfig")
+    public String groupConfig(@RequestBody Map<String, Object> param) {
+	return JSONObject
+		.toJSONString(courseService.groupConfig(Long.valueOf((int)(param.get("id"))), (int) (param.get("status"))));
+    }
 }

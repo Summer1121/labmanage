@@ -35,14 +35,14 @@ public class GeneratorSqlMap {
 		myBatisGenerator.generate(null);
 	}
 
-//	@Test
-////	 执行main方法以生成代码
-//	public static void main(String[] args) {
-//		try {
-//			GeneratorSqlMap generatorSqlmap = new GeneratorSqlMap();
-//			generatorSqlmap.generator();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Test
+//	 执行main方法以生成代码
+	public static void main(String[] args) {
+		try {
+			GeneratorSqlMap generatorSqlmap = new GeneratorSqlMap();
+			generatorSqlmap.generator();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

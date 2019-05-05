@@ -10,6 +10,9 @@ HELP.md
 .settings
 .springBeans
 .sts4-cache
+application.yml
+labmanage.littlee.top.pfx
+
 
 ### IntelliJ IDEA ###
 .idea

@@ -1,10 +1,15 @@
 package com.ncepu.feilong505.LabManage.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ncepu.feilong505.LabManage.common.ResponseBody;
@@ -39,6 +44,8 @@ public class CourseUserServiceImpl implements CourseUserService {
     @Autowired
     CourseMapper courseMapper;
 
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     /*
      * (non-Javadoc)
@@ -190,8 +197,7 @@ public class CourseUserServiceImpl implements CourseUserService {
 	    List<CourseVO> courseVOs = courseMapper.selectCourseByUser(userId, status);
 	    if (courseVOs != null && !courseVOs.isEmpty()) {
 		responseBody.success(courseVOs);
-	    }
-	    else {
+	    } else {
 		responseBody.error("未加入课程");
 	    }
 	} catch (Exception e) {
@@ -217,6 +223,112 @@ public class CourseUserServiceImpl implements CourseUserService {
 		responseBody.success(userVOs);
 	    } else {
 		responseBody.error("未找到用户");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.CourseUserService#groupin(java.lang.
+     * Long, java.lang.Long, java.lang.String)
+     */
+    @Override
+    public ResponseBody groupIn(Long userId, Long courseId, String groupKey) {
+	ResponseBody responBody = new ResponseBody();
+	try {
+	    int groupId;
+	    CourseUser courseUser = getCourseUser(userId, courseId).get(0);
+	    // 如果缓存中不存在本redis键，则创建一个hashmap，并赋值为第一个
+//	    if (redisTemplate.hasKey("courseUser_group__string_key") == false) {
+//		redisTemplate.opsForHash().put("labmanage_courseUser_group__string_key",
+//			courseUser.getId() + "&" + groupKey, 1);
+//		groupId = 1;
+//	    }
+	    // 如果redis中不存在本hashkey 则创建一个键值对
+	    if (redisTemplate.opsForHash().hasKey("labmanage_courseUser_group_string_key",
+		    courseUser.getId() + "&" + groupKey) == false) {
+		// 从数据库中查找最大的组数并获取n+1
+		int maxgroup = courseUserMapper.selectMaxGroupId(courseUser.getId()) + 1;
+		redisTemplate.opsForHash().put("labmanage_courseUser_group_string_key",
+			courseUser.getId() + "&" + groupKey, maxgroup);
+		groupId = maxgroup;
+	    }
+	    // 已经存在一个键值对，则获取其id值
+	    else {
+		groupId = (int) redisTemplate.opsForHash().get("labmanage_courseUser_group_string_key",
+			courseUser.getId() + "&" + groupKey);
+	    }
+	    // 将数据存入数据库
+	    courseUser.setGroupId(groupId);
+	    courseUserMapper.updateByPrimaryKeySelective(courseUser);
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("groupId", groupId);
+	    responBody.success(map);
+	} catch (Exception e) {
+	    responBody.error();
+	    e.printStackTrace();
+	}
+	return responBody;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.CourseUserService#groupIn(java.lang.
+     * Long, java.lang.Long, java.lang.Integer)
+     */
+    @Override
+    public ResponseBody groupIn(Long userId, Long courseId, Integer groupId) {
+	ResponseBody responseBody = new ResponseBody();
+	try {
+	    CourseUser courseUser = getCourseUser(userId, courseId).get(0);
+	    if (courseUser != null) {
+		if (courseUser.getGroupId() != 0) {
+		    responseBody.error("已分组");
+		} else {
+		    courseUser.setGroupId(groupId);
+		    if (courseUserMapper.updateByPrimaryKeySelective(courseUser) == 1) {
+			responseBody.success("加入了第" + groupId + "组");
+		    }
+		}
+	    } else {
+		responseBody.error("未绑定当前课堂");
+	    }
+	} catch (Exception e) {
+	    responseBody.error();
+	    e.printStackTrace();
+	}
+	return responseBody;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.ncepu.feilong505.LabManage.service.CourseUserService#groupOut(java.lang.
+     * Long, java.lang.Long)
+     */
+    @Override
+    public ResponseBody groupOut(Long userId, Long courseId) {
+	ResponseBody responseBody = new ResponseBody();
+	try {
+	    CourseUser courseUser = getCourseUser(userId, courseId).get(0);
+	    if (courseUser == null)
+		responseBody.error("未绑定课堂");
+	    else {
+		courseUser.setGroupId(0);
+		if (courseUserMapper.updateByPrimaryKeySelective(courseUser) == 1) {
+		    responseBody.success("退出成功");
+		} else {
+		    responseBody.error("退出失败");
+		}
 	    }
 	} catch (Exception e) {
 	    responseBody.error();

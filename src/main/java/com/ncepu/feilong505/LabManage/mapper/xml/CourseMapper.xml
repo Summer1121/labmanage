@@ -20,6 +20,7 @@
 		<result column="course_status" jdbcType="INTEGER" property="courseStatus" />
 		<result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime" />
 		<result column="course_detail" jdbcType="VARCHAR" property="courseDetail" />
+		<result column="student_num" jdbcType="INTEGER" property="studentNum" />
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -90,30 +91,47 @@
 	</sql>
 
 	<select id="selectCourseByUser" resultMap="CourseVOmap">
+		with a as
+		(
+			select course_user.course_id
+			from course_user
+			where
+			course_user.user_id = 1
+		)
+		,c as
+		(
+			select count(id) as student_num
+			from course_user
+			where exists
+			(
+				select course_user.id 
+				from a 
+				where
+				course_user.course_id = a.course_id
+			)
+		)
 		select
 		b.id
 		,b.course_teacher_id
 		,b.course_name
 		,b.course_status
 		,user.user_name teacher_name
-		,user.user_phone
-		teacher_phone
+		,user.user_phone teacher_phone
+		,c.student_num
 		from
-		(
-		select * from course
-		<where>
-			id in
-			(
-			select course_user.course_id
-			from course_user
+		a,(
+			select * from course
 			where
-			course_user.user_id = #{userId}
+			exists 
+			(
+				select course.id 
+				from a 
+				where id=a.course_id
+				<if test="status != null">
+					and course_status = #{status}
+				</if>
 			)
-			<if test="status != null">
-				and course_status= #{status}
-			</if>
-		</where>
-		) b,user
+		) b,c,user
 		where user.id = b.course_teacher_id
 	</select>
 	<select id="selectByExample"

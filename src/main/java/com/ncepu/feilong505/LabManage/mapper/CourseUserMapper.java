@@ -29,4 +29,6 @@ public interface CourseUserMapper {
     int updateByPrimaryKeySelective(CourseUser record);
 
     int updateByPrimaryKey(CourseUser record);
+    
+    int selectMaxGroupId(Long id);
 }

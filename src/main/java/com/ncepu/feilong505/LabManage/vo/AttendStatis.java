@@ -19,4 +19,6 @@ public class AttendStatis {
     private Long userId;// 用户id
     private String userName; // 用户姓名
     private Integer attendTime;// 签到次数
+    private String userClass;//学生班级
+    private String userNum;//学号
 }

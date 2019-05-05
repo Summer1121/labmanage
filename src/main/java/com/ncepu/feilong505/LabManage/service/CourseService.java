@@ -66,4 +66,27 @@ public interface CourseService {
      */
     public ResponseBody findCourseList(Course course);
 
+    /**
+     * 
+     * TODO 查询本课堂是否开启分组
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月23日
+     * @param courseId
+     * @return 课堂分组状态 0为未分组，1为自行结合
+     */
+    public ResponseBody ifGroup(Long courseId);
+
+    /**
+     * 
+     * TODO 修改课堂分组状态
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月23日
+     * @param courseId 课堂ID
+     * @param status 课堂分组状态 0为关闭分组，1为开启分组（不更改模式），2为自行结合(默认)，其他分组方式待定
+     * @return
+     */
+    public ResponseBody groupConfig(Long courseId, Integer status);
+
 }

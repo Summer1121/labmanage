@@ -45,9 +45,21 @@ public interface AttendService {
      * @date 2019年4月20日
      * @param courseId
      * @param id
+     * @param flag     0表示签到用户 1表示未签到的用户
      * @return
      */
-    public ResponseBody findAttendList(Long courseId, Long id);
+    public ResponseBody findAttendList(Long courseId, Long id, Integer flag);
+    
+    /**
+     * 
+     * TODO 某班级某次签到人数统计
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年4月27日
+     * @param courseId
+     * @param id
+     * @return
+     */
+    public ResponseBody getAttendCount(Long courseId, Long id);
 
     /**
      * 
@@ -59,6 +71,8 @@ public interface AttendService {
      * @return
      */
     public ResponseBody findListWithCourse(Long courseId);
+
+    
 
     /**
      * 

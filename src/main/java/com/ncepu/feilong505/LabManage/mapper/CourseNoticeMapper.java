@@ -2,11 +2,11 @@ package com.ncepu.feilong505.LabManage.mapper;
 
 import com.ncepu.feilong505.LabManage.pojo.CourseNotice;
 import com.ncepu.feilong505.LabManage.pojo.CourseNoticeExample;
-import java.util.List;
+import com.ncepu.feilong505.LabManage.vo.CourseNoticeVO;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
-@Mapper
+
 public interface CourseNoticeMapper {
     long countByExample(CourseNoticeExample example);
 
@@ -29,4 +29,25 @@ public interface CourseNoticeMapper {
     int updateByPrimaryKeySelective(CourseNotice record);
 
     int updateByPrimaryKey(CourseNotice record);
+    
+    /**
+     * 
+     * TODO 获取公告详情  
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param id
+     * @return
+     */
+    CourseNoticeVO selectVOByPrimaryKey(Long id);
+    
+    /**
+     * 
+     * TODO  获取公告列表
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年5月4日
+     * @param courseId
+     * @return
+     */
+    List<CourseNoticeVO> selectNoticeVOList(Long courseId);
+
 }

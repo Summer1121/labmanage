@@ -6,8 +6,11 @@ import com.ncepu.feilong505.LabManage.vo.AttendStatis;
 
 import java.util.List;
 
+import javax.annotation.sql.DataSourceDefinition;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 @Mapper
 public interface AttendMapper {
     long countByExample(AttendExample example);
@@ -40,17 +43,19 @@ public interface AttendMapper {
      * @param courseId
      * @return
      */
-    List<AttendStatis> selectAttendByCourse(Long courseId,Long id);
+    List<AttendStatis> selectAttendByCourse(Long courseId,Long id,int flag);
     
     /**
      * 
-     * TODO 查询某用户在某课堂的签到列表  
+     * TODO 获取某课堂某次签到的签到人数统计  
      * @author xtysummer1121@foxmail.com
-     * @date 2019年4月20日
-     * @param userId
+     * @date 2019年4月27日
+     * @param courseId
+     * @param id
+     * @param flag
      * @return
      */
-    List<Attend> selectAttendByUser(Long userId,Long courseId);
+    int selectAttendCount(Long courseId,Long id);
     
     /**
      * 

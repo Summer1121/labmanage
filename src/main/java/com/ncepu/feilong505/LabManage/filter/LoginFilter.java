@@ -30,7 +30,12 @@ public class LoginFilter implements Filter {
 	ResponseBody responseBody;
 
 	// 例外的uri
-	final static String[] exceptionUrls = new String[] { "/user/login","/user/wxlogin","/user/regis" };
+	final static String[] exceptionUrls = new String[] { 
+		"/user/login",
+		"/user/wxlogin",
+		"/user/regis" ,
+		"/getcert"
+		};
 
 	/*
 	 * (non-Javadoc)
