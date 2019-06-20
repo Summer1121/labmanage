@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-@EntityScan
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor

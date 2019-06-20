@@ -30,5 +30,5 @@ public interface AppConfigService {
      * @date 2019年4月30日
      * @return
      */
-    ResponseBody getCertificate(String jsCode) throws Exception;
+    ResponseBody getCertificate(String jsCode,String appId) throws Exception;
 }

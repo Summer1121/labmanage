@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ncepu.feilong505.LabManage.mapper.AppConfigMapper;
 import com.ncepu.feilong505.LabManage.service.AppConfigService;
 
 /**
@@ -29,7 +26,7 @@ public class AppConfigController {
 
     @RequestMapping("/getcert")
     public String getCertificate(@RequestBody Map<String, String> param) throws Exception {
-	return JSONObject.toJSONString(appConfigService.getCertificate(param.get("jsCode")), false);
+	return JSONObject.toJSONString(appConfigService.getCertificate(param.get("jsCode"),param.get("appId")));
 //	return JSONObject.toJSONString(object, true);
     }
 

@@ -48,8 +48,7 @@
 		</javaClientGenerator>
 
 		<!-- 指定数据表 -->
-
-		<table schema="labmanage" tableName="course_notice"></table>
+		<table schema="labmanage" tableName="course_user"></table>
 
 
 		<!-- 有些表的字段需要指定java类型 <table schema="DB2ADMIN" tableName="ALLTYPES" domainObjectName="Customer" > <property 

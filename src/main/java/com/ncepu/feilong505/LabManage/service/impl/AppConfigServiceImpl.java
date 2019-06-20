@@ -10,12 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.annotation.Resource;
+
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -38,6 +41,11 @@ public class AppConfigServiceImpl implements AppConfigService {
     @Autowired
     AppConfigMapper appConfigMapper;
 
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
+
+    public static final String appConfigRedisKey = "labmanage-app-config";
+
     /*
      * (non-Javadoc)
      * 
@@ -46,17 +54,18 @@ public class AppConfigServiceImpl implements AppConfigService {
     @Override
     public ResponseBody getAppConfig() {
 	ResponseBody responseBody = new ResponseBody();
-	try {
-	    AppConfig config = ((AppConfigServiceImpl) SpringUtil.getBean(this.getClass())).getAppConfig(1);
-	    if (config != null) {
-		responseBody.success(config);
-	    } else {
-		responseBody.error("没有本配置");
-	    }
-	} catch (Exception e) {
-	    responseBody.error();
-	    e.printStackTrace();
-	}
+	responseBody.error("过时接口");
+//	try {
+//	    AppConfig config = ((AppConfigServiceImpl) SpringUtil.getBean(this.getClass())).getAppConfig();
+//	    if (config != null) {
+//		responseBody.success(config);
+//	    } else {
+//		responseBody.error("没有本配置");
+//	    }
+//	} catch (Exception e) {
+//	    responseBody.error();
+//	    e.printStackTrace();
+//	}
 	return responseBody;
     }
 
@@ -66,9 +75,9 @@ public class AppConfigServiceImpl implements AppConfigService {
      * @see com.ncepu.feilong505.LabManage.service.AppConfigService#getCertificate()
      */
     @Override
-    public ResponseBody getCertificate(String jsCode) throws Exception {
+    public ResponseBody getCertificate(String jsCode, String appId) throws Exception {
 	ResponseBody responseBody = new ResponseBody();
-	AppConfig config = ((AppConfigServiceImpl) SpringUtil.getBean(this.getClass())).getAppConfig(1);
+	AppConfig config = ((AppConfigServiceImpl) SpringUtil.getBean(this.getClass())).getAppConfig(appId);
 
 	String httpUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=" + config.getAppId() + "&secret="
 		+ config.getSecret() + "&js_code=" + jsCode + "&grant_type=authorization_code";
@@ -113,19 +122,25 @@ public class AppConfigServiceImpl implements AppConfigService {
 	return responseBody;
     }
 
-//常用方法 获取当前服务器秘钥配置
-    private AppConfig getAppConfig(int i) throws Exception {
-	if (AppConfigConst.appConfigConst == null) {
-	    AppConfig config = appConfigMapper.selectByPrimaryKey(i);
-	    if (config != null)
-		{
-		AppConfigConst.appConfigConst=config;
-		return config;
-		}
-	    else {
-		throw new Exception("no such config");
-	    }
-	}
-	else return AppConfigConst.appConfigConst;
+//常用方法 根据appId获取当前服务器秘钥配置
+
+    private AppConfig getAppConfig(String appId) throws Exception {
+//	if (AppConfigConst.getAppConfigConst() == null) {
+	if (redisTemplate.opsForHash().hasKey(appConfigRedisKey, appId) == true)
+	    return (AppConfig) redisTemplate.opsForHash().get(appConfigRedisKey, appId);
+
+	AppConfig config = appConfigMapper.selectOneByAppId(appId);
+	redisTemplate.opsForHash().put(appConfigRedisKey, appId, config);
+	return config;
+//	    if (config != null)
+//		{
+//		AppConfigConst.setAppConfigConst(config);
+//		return config;
+//		}
+//	    else {
+//		throw new Exception("no such config");
+//	    }
+//	}
+//	else return AppConfigConst.getAppConfigConst();
     }
 }

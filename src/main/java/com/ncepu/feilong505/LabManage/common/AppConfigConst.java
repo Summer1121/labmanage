@@ -12,13 +12,31 @@ import lombok.Data;
  */
 public class AppConfigConst {
     AppConfigConst(AppConfig appConfig) {
-	this.appConfigConst.setSecret(appConfig.getSecret());
-	this.appConfigConst.setAppId(appConfig.getAppId());
+	if (this.appConfigConst == null) {
+	    this.appConfigConst.setSecret(appConfig.getSecret());
+	    this.appConfigConst.setAppId(appConfig.getAppId());
+	}
     }
 
     /**
      * 变量的封装 近似于常量
      */
-    public static AppConfig appConfigConst;
+    private static AppConfig appConfigConst;
+
+    /**
+     * @return the appConfigConst
+     */
+    public static AppConfig getAppConfigConst() {
+	return appConfigConst;
+    }
+
+    /**
+     * @param appConfigConst the appConfigConst to set
+     */
+    public static void setAppConfigConst(AppConfig appConfigConst) {
+	if (appConfigConst == null) {
+	    AppConfigConst.appConfigConst = appConfigConst;
+	}
+    }
 
 }

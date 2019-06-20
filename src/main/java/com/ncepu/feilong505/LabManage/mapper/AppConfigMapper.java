@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.cache.annotation.Cacheable;
 @Mapper
 public interface AppConfigMapper {
@@ -30,4 +31,7 @@ public interface AppConfigMapper {
     int updateByPrimaryKeySelective(AppConfig record);
 
     int updateByPrimaryKey(AppConfig record);
+    
+    @Select("select * from app_config where app_id = #{appId} limit 1")
+    AppConfig selectOneByAppId(String appId);
 }

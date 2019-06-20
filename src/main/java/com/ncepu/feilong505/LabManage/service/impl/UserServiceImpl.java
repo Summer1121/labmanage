@@ -14,6 +14,7 @@ import com.ncepu.feilong505.LabManage.mapper.CourseUserMapper;
 import com.ncepu.feilong505.LabManage.mapper.UserMapper;
 import com.ncepu.feilong505.LabManage.pojo.CourseUser;
 import com.ncepu.feilong505.LabManage.pojo.CourseUserExample;
+import com.ncepu.feilong505.LabManage.pojo.CourseUserExample.Criteria;
 import com.ncepu.feilong505.LabManage.pojo.User;
 import com.ncepu.feilong505.LabManage.pojo.UserExample;
 import com.ncepu.feilong505.LabManage.service.UserService;
@@ -54,7 +55,9 @@ public class UserServiceImpl implements UserService {
 		    responseBody.error("账户不存在");
 		} else {
 		    request.getSession().setAttribute("logined", 1);
-		    responseBody.success(new User(result.get(0).getId()));
+		    Long userId = result.get(0).getId();
+		    request.getSession().setAttribute("userId", userId);
+		    responseBody.success(new User(userId));
 		}
 	    } else {
 		responseBody.error("缺少参数");
@@ -85,7 +88,9 @@ public class UserServiceImpl implements UserService {
 		    responseBody.error("账号或密码错误");
 		} else {
 		    request.getSession().setAttribute("logined", 1);
-		    responseBody.success(new User(result.get(0).getId()));
+		    Long userId = result.get(0).getId();
+		    request.getSession().setAttribute("userId", userId);
+		    responseBody.success(new User(userId));
 		}
 	    } else {
 		responseBody.error("缺少参数");
@@ -220,9 +225,9 @@ public class UserServiceImpl implements UserService {
 
 	} else if (courseId != null) {
 	    CourseUserExample example = new CourseUserExample();
-	    example.createCriteria().andCourseIdEqualTo(courseId);
+	    Criteria critera = example.createCriteria().andCourseIdEqualTo(courseId);
 	    if (groupId != null) {
-		example.createCriteria().andGroupIdEqualTo(groupId);
+		critera.andGroupIdEqualTo(groupId);
 	    }
 	    List<CourseUser> courseUsers = courseUserMapper.selectByExample(example);
 	    List<UserVO> userVO = new ArrayList<UserVO>();

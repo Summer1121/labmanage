@@ -15,7 +15,25 @@
 		<result column="attend_time" jdbcType="INTEGER" property="attendTime" />
 		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
 		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
+	</resultMap>
+	<!-- 用于文件输出的map -->
+	<resultMap id="AttendFileOutMap" type="com.ncepu.feilong505.LabManage.vo.AttendFileOut">
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
+		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
+		<result column="attend_id" jdbcType="BIGINT" property="attendId" />
+	</resultMap>
 
+	<resultMap id="AttendFileOutMapWithCondition"
+		type="com.ncepu.feilong505.LabManage.vo.AttendFileOutWithCondition"
+	>
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
+		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
+		<result column="course_id" jdbcType="BIGINT" property="courseId" />
+		<result column="exam_date" jdbcType="TIMESTAMP" property="examDate" />
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -87,6 +105,7 @@
 	</sql>
 
 	<!-- 以下两个sql都使用了cte，对数据库本版本有要求，必须为8.0及以上 -->
+	<!--获取班级签到统计列表 -->
 	<select id="selectAttendStatis" resultMap="AttendStatisMap">
 		with
 		a (id,user_id)as(
@@ -136,6 +155,7 @@
 		and
 		c.user_id =a.user_id
 	</select>
+	<!--通过课堂ID与签到id查询签到列表 -->
 	<select id="selectAttendByCourse" resultMap="AttendStatisMap">
 		with
 		a as(
@@ -172,32 +192,112 @@
 		</if>
 		<if test="flag == 1">
 			course_user.id
-			not in
-			(select * from b)
+			not in (
+			select *
+			from b)
+			and
+			course_user.id
+			in (
+			select course_user_id
+			from
+			a)
 		</if>
 		)
 	</select>
-
+	<!--获取某课堂某次签到的签到人数统计 -->
 	<select id="selectAttendCount" resultType="java.lang.Integer">
 		with
-			a as(
-			select id course_user_id
-			,user_id
-			from course_user
-			where
-			course_id = #{courseId}
+		a as(
+		select id course_user_id
+		,user_id
+		from
+		course_user
+		where
+		course_id = #{courseId}
 		)
-		select count(*) 
+		select count(*)
 		from a
 		where exists
 		(
-			select * 
-			from attend
-			where 
-			attend.attend_course_user_id = a.course_user_id
-			and id = #{id}
+		select *
+		from attend
+		where
+		attend.attend_course_user_id = a.course_user_id
+		and id = #{id}
 		)
 	</select>
+	<!-- 获取某个班级中的所有用户的所有签到记录，按照由内到外（由先到后）分别按照userId，id，排序 -->
+	<select id="selectAttendCourseRecord" resultMap="AttendFileOutMap">
+		SELECT
+		DISTINCT
+		user.id user_id,
+		user.user_name,
+		user.user_class,
+		user.user_num,
+		attend.id attend_id
+		FROM
+		course_user cu
+		left join
+		labmanage.attend on
+		cu.id = attend.attend_course_user_id
+		left join `user` on
+		user.id = cu.user_id
+		where
+		cu.course_id = #{courseId}
+		ORDER by
+		user.user_num,attend.id
+	</select>
+
+	<!-- 通过条件查询签到记录 -->
+	<select id="selectAttendWithCondition" resultMap="AttendFileOutMapWithCondition">
+		select
+		user.user_class ,
+		user.user_num,
+		user.user_name,
+		cu.course_id,
+		attend.attend_arrive_time
+		exam_date
+		from
+		attend
+		left join course_user cu on
+		cu.id = attend.attend_course_user_id
+		left join user
+		on
+		cu.user_id = user.id
+		<where>
+			<if test="userNum != null "> user_num like "%"#{userNum}"%"</if>
+			<if test="userName != null "> user_name like "%"#{userName}"%"</if>
+			<if test="userClass != null "> user_class like "%"#{userClass}"%"</if>
+			<if test="courseId != null "> course_id like "%"#{courseId}"%"</if>
+			<if test="startTime != null "> exam_date &gt;= #{startTime}</if>
+			<if test="endTime != null "> exam_date &lt;= #{endTime}</if>
+		</where>
+		order by exam_date asc
+		<if test="startNum != null and pageSize != null">
+			limit #{startNum},#{pageSize}
+		</if>
+	</select>
+
+	<select id="selectAttendWithConditionCount" resultType="java.lang.Integer">
+		select count(*)
+		from
+		attend
+		left join course_user cu on
+		cu.id = attend.attend_course_user_id
+		left join
+		user
+		on
+		cu.user_id = user.id
+		<where>
+			<if test="userNum != null "> user_num like "%"#{userNum}"%"</if>
+			<if test="userName != null "> user_name like "%"#{userName}"%"</if>
+			<if test="userClass != null "> user_class like "%"#{userClass}"%"</if>
+			<if test="courseId != null "> course_id like "%"#{courseId}"%"</if>
+			<if test="startTime != null "> exam_date &gt;= #{startTime}</if>
+			<if test="endTime != null "> exam_date &lt;= #{endTime}</if>
+		</where>
+	</select>
+
 
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultMap="BaseResultMap"

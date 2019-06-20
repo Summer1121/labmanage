@@ -102,7 +102,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/edit")
-    public String editUser(@RequestBody User user) {
+    public String editUser(@RequestBody User user, HttpServletRequest request) {
+	user.setId((Long) request.getSession().getAttribute("userId"));
 	return JSONObject.toJSONString(userService.editUser(user));
     }
 
@@ -114,10 +115,10 @@ public class UserController {
      * @date 2019年4月8日
      * @param bean
      * @return
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     @RequestMapping("/find")
-    public String findUser(@RequestBody UserBean bean) throws InterruptedException  {
+    public String findUser(@RequestBody UserBean bean) throws InterruptedException {
 	return JSONObject.toJSONString(userService.findUserList(bean.userId, bean.courseId, bean.groupId, bean.flag));
     }
 

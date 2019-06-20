@@ -3,14 +3,14 @@ package com.ncepu.feilong505.LabManage.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseUserExample {
+public class GroupInfoExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CourseUserExample() {
+    public GroupInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -221,126 +221,6 @@ public class CourseUserExample {
 
         public Criteria andCourseIdNotBetween(Long value1, Long value2) {
             addCriterion("course_id not between", value1, value2, "courseId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdIsNull() {
-            addCriterion("user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdIsNotNull() {
-            addCriterion("user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdEqualTo(Long value) {
-            addCriterion("user_id =", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdNotEqualTo(Long value) {
-            addCriterion("user_id <>", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdGreaterThan(Long value) {
-            addCriterion("user_id >", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("user_id >=", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdLessThan(Long value) {
-            addCriterion("user_id <", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdLessThanOrEqualTo(Long value) {
-            addCriterion("user_id <=", value, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdIn(List<Long> values) {
-            addCriterion("user_id in", values, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdNotIn(List<Long> values) {
-            addCriterion("user_id not in", values, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdBetween(Long value1, Long value2) {
-            addCriterion("user_id between", value1, value2, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserIdNotBetween(Long value1, Long value2) {
-            addCriterion("user_id not between", value1, value2, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdIsNull() {
-            addCriterion("group_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdIsNotNull() {
-            addCriterion("group_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdEqualTo(Integer value) {
-            addCriterion("group_id =", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdNotEqualTo(Integer value) {
-            addCriterion("group_id <>", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdGreaterThan(Integer value) {
-            addCriterion("group_id >", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("group_id >=", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdLessThan(Integer value) {
-            addCriterion("group_id <", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdLessThanOrEqualTo(Integer value) {
-            addCriterion("group_id <=", value, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdIn(List<Integer> values) {
-            addCriterion("group_id in", values, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdNotIn(List<Integer> values) {
-            addCriterion("group_id not in", values, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdBetween(Integer value1, Integer value2) {
-            addCriterion("group_id between", value1, value2, "groupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("group_id not between", value1, value2, "groupId");
             return (Criteria) this;
         }
 

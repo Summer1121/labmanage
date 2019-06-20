@@ -96,19 +96,33 @@
 			select course_user.course_id
 			from course_user
 			where
-			course_user.user_id = 1
+			course_user.user_id = #{userId}
+		)
+		,b as(
+		select * from course
+			where
+			exists 
+			(
+				select *
+				from a 
+				where course.id=a.course_id
+				<if test="status != null">
+					and course_status = #{status}
+				</if>
+			)
 		)
 		,c as
 		(
-			select count(id) as student_num
+			select course_user.course_id,count(course_user.id) as student_num
 			from course_user
 			where exists
 			(
-				select course_user.id 
-				from a 
+				select *
+				from a
 				where
 				course_user.course_id = a.course_id
 			)
+			group by course_user.course_id
 		)
 		select
 		b.id
@@ -119,20 +133,10 @@
 		,user.user_phone teacher_phone
 		,c.student_num
 		from
-		a,(
-			select * from course
-			where
-			exists 
-			(
-				select course.id 
-				from a 
-				where id=a.course_id
-				<if test="status != null">
-					and course_status = #{status}
-				</if>
-			)
-		) b,c,user
+		a,b,c,user
 		where user.id = b.course_teacher_id
+		and a.course_id=b.id
+		and a.course_id=c.course_id
 	</select>
 	<select id="selectByExample"
 		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultMap="BaseResultMap"

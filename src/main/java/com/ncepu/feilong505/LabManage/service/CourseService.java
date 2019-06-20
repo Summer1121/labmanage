@@ -29,9 +29,10 @@ public interface CourseService {
      * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年3月14日
+     * @date userId 来自于session
      * @return
      */
-    public ResponseBody editCourse(Course course);
+    public ResponseBody editCourse(Course course, Long userId);
 
     /**
      * 
@@ -42,7 +43,7 @@ public interface CourseService {
      * @param course
      * @return
      */
-    public ResponseBody deleteCourse(Long courseId);
+    public ResponseBody deleteCourse(Course course);
 
     /**
      * 
@@ -84,9 +85,11 @@ public interface CourseService {
      * @author xtysummer1121@foxmail.com
      * @date 2019年4月23日
      * @param courseId 课堂ID
-     * @param status 课堂分组状态 0为关闭分组，1为开启分组（不更改模式），2为自行结合(默认)，其他分组方式待定
+     * @param status   课堂分组状态
+     *                 0为关闭分组，1为开启分组（不修改分组），2为自行结合(默认)，3为将相同试验台号用户分为同一组（有可能改变当前分组），其他分组方式待定
+     * @param userId  来自于session
      * @return
      */
-    public ResponseBody groupConfig(Long courseId, Integer status);
+    public ResponseBody groupConfig(Course course,Long userId);
 
 }

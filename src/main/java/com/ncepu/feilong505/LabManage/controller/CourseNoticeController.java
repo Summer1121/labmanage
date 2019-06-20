@@ -1,5 +1,7 @@
 package com.ncepu.feilong505.LabManage.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +35,10 @@ public class CourseNoticeController {
      * @return
      */
     @RequestMapping("/add")
-    public String addNotice(@RequestBody CourseNotice courseNotice) {
-	return JSONObject.toJSONString(courseNoticeService.addNotice(courseNotice.getUserId(),
-		courseNotice.getCourseId(), courseNotice.getCourseNoticeContent()));
+    public String addNotice(@RequestBody CourseNotice courseNotice, HttpServletRequest request) {
+	Long userId = (Long) request.getSession().getAttribute("userId");
+	return JSONObject.toJSONString(courseNoticeService.addNotice(userId, courseNotice.getCourseId(),
+		courseNotice.getCourseNoticeContent()));
     }
 
     /**
@@ -48,9 +51,10 @@ public class CourseNoticeController {
      * @return
      */
     @RequestMapping("/remove")
-    public String removeNotice(@RequestBody CourseNotice courseNotice) {
-	return JSONObject.toJSONString(courseNoticeService.removeNotice(courseNotice.getUserId(),
-		courseNotice.getCourseId(), courseNotice.getId()));
+    public String removeNotice(@RequestBody CourseNotice courseNotice, HttpServletRequest request) {
+	Long userId = (Long) request.getSession().getAttribute("userId");
+	return JSONObject.toJSONString(
+		courseNoticeService.removeNotice(userId, courseNotice.getCourseId(), courseNotice.getId()));
     }
 
     /**
@@ -63,12 +67,14 @@ public class CourseNoticeController {
      * @return
      */
     @RequestMapping("/update")
-    public String updateNotice(@RequestBody CourseNotice courseNotice) {
-	return JSONObject.toJSONString(courseNoticeService.updateNotice(courseNotice.getUserId(),
-		courseNotice.getCourseId(), courseNotice.getId(), courseNotice.getCourseNoticeContent()));
+    public String updateNotice(@RequestBody CourseNotice courseNotice, HttpServletRequest request) {
+	Long userId = (Long) request.getSession().getAttribute("userId");
+	return JSONObject.toJSONString(courseNoticeService.updateNotice(userId, courseNotice.getCourseId(),
+		courseNotice.getId(), courseNotice.getCourseNoticeContent()));
     }
 
-    /**z
+    /**
+     * z
      * 
      * TODO 获取公告
      * 

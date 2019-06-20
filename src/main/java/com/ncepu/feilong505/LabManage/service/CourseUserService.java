@@ -49,6 +49,42 @@ public interface CourseUserService {
 
     /**
      * 
+     * TODO 获取分组列表
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年6月11日
+     * @param userId
+     * @return
+     */
+    public ResponseBody getGroupList(Long courseId);
+
+    /**
+     * 
+     * TODO 获取某人的分组id
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年6月11日
+     * @param courseId
+     * @param userId
+     * @return
+     */
+    public ResponseBody getMyGroup(Long courseId, Long userId);
+
+    /**
+     * 
+     * TODO 修改用户的试验台号码（用于记录与分组）
+     * 
+     * @author xtysummer1121@foxmail.com
+     * @date 2019年6月9日
+     * @param userId
+     * @param courseId
+     * @param position
+     * @return
+     */
+    public ResponseBody setPosition(Long userId, Long courseId, String position);
+
+    /**
+     * 
      * TODO 获取某用户与某课堂的关系
      * 
      * @author xtysummer1121@foxmail.com
@@ -108,6 +144,7 @@ public interface CourseUserService {
     /**
      * 
      * TODO 通过组号进入分组
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年5月4日
      * @param userId
@@ -116,16 +153,17 @@ public interface CourseUserService {
      * @return
      */
     ResponseBody groupIn(Long userId, Long courseId, Integer groupId);
-    
+
     /**
      * 
-     * TODO 离开当前小组  
+     * TODO 离开当前小组
+     * 
      * @author xtysummer1121@foxmail.com
      * @date 2019年5月4日
      * @param userId
      * @param courseId
      * @return
      */
-    ResponseBody groupOut(Long userId,Long courseId);
+    ResponseBody groupOut(Long userId, Long courseId);
 
 }

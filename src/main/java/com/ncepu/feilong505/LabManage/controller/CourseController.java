@@ -2,13 +2,12 @@ package com.ncepu.feilong505.LabManage.controller;
 
 import java.util.Map;
 
-import javax.xml.ws.RequestWrapper;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -50,9 +49,10 @@ public class CourseController {
      * @param course
      * @return
      */
-    @RequestMapping("update")
-    public String updateCourse(@RequestBody Course course) {
-	return JSONObject.toJSONString(courseService.editCourse(course));
+    @RequestMapping("/update")
+    public String updateCourse(@RequestBody Course course, HttpServletRequest request) {
+	Long userId = (Long) request.getSession().getAttribute("userId");
+	return JSONObject.toJSONString(courseService.editCourse(course, userId));
     }
 
     /**
@@ -78,7 +78,7 @@ public class CourseController {
      * @param course
      * @return
      */
-    @RequestMapping("findlist")
+    @RequestMapping("/findlist")
     public String findCourseList(@RequestBody Course course) {
 	return JSONObject.toJSONString(courseService.findCourseList(course));
     }
@@ -92,7 +92,7 @@ public class CourseController {
      * @param course
      * @return
      */
-    @RequestMapping("getgroupconfig")
+    @RequestMapping("/getgroupconfig")
     public String isGrouped(@RequestBody Course course) {
 	return JSONObject.toJSONString(courseService.ifGroup(course.getId()));
     }
@@ -106,9 +106,11 @@ public class CourseController {
      * @param param Long id,Integer status
      * @return
      */
-    @RequestMapping("putgroupconfig")
-    public String groupConfig(@RequestBody Map<String, Object> param) {
-	return JSONObject
-		.toJSONString(courseService.groupConfig(Long.valueOf((int)(param.get("id"))), (int) (param.get("status"))));
+    @RequestMapping("/putgroupconfig")
+    public String groupConfig(@RequestBody Map<String, Object> param, HttpServletRequest request) {
+	Course course = new Course();
+	Long userId = (Long) request.getSession().getAttribute("userId");
+	course.setId(Long.valueOf((param.get("id").toString()))).setCourseIsGroup((int) param.get("status"));
+	return JSONObject.toJSONString(courseService.groupConfig(course, userId));
     }
 }
