@@ -2,9 +2,12 @@ package com.ncepu.feilong505.LabManage.mapper;
 
 import com.ncepu.feilong505.LabManage.pojo.GroupInfo;
 import com.ncepu.feilong505.LabManage.pojo.GroupInfoExample;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+@Mapper
 public interface GroupInfoMapper {
     long countByExample(GroupInfoExample example);
 

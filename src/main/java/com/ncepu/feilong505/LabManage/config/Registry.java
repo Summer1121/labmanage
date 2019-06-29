@@ -16,7 +16,7 @@ public class Registry implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	// 将用户图片请求映射对应文件位置 到static下
 	registry.addResourceHandler("image/user/get/**").addResourceLocations("file:./images/userImages/");
-	registry.addResourceHandler("file/user/get/**").addResourceLocations("file:./files/userImages/");
+	registry.addResourceHandler("file/user/get/**").addResourceLocations("file:./files/userFiles/");
 //		.addResourceLocations("classpath:/static/");
 	
     }

@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ncepu.feilong505.LabManage.mapper.AttendMapper">
-	<resultMap id="BaseResultMap" type="com.ncepu.feilong505.LabManage.pojo.Attend">
-		<result column="attend_course_user_id" jdbcType="BIGINT" property="attendCourseUserId" />
-		<result column="attend_arrive_time" jdbcType="TIMESTAMP" property="attendArriveTime" />
-		<result column="attend_leave_time" jdbcType="TIMESTAMP" property="attendLeaveTime" />
-		<result column="id" jdbcType="BIGINT" property="id" />
-		<result column="attend_status" jdbcType="INTEGER" property="attendStatus" />
-	</resultMap>
-	<!-- 用于统计签到信息 -->
-	<resultMap id="AttendStatisMap" type="com.ncepu.feilong505.LabManage.vo.AttendStatis">
-		<result column="user_id" jdbcType="BIGINT" property="userId" />
-		<result column="user_name" jdbcType="VARCHAR" property="userName" />
-		<result column="attend_time" jdbcType="INTEGER" property="attendTime" />
-		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
-		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
-	</resultMap>
-	<!-- 用于文件输出的map -->
-	<resultMap id="AttendFileOutMap" type="com.ncepu.feilong505.LabManage.vo.AttendFileOut">
-		<result column="user_id" jdbcType="BIGINT" property="userId" />
-		<result column="user_name" jdbcType="VARCHAR" property="userName" />
-		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
-		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
-		<result column="attend_id" jdbcType="BIGINT" property="attendId" />
-	</resultMap>
+    <resultMap id="BaseResultMap" type="com.ncepu.feilong505.LabManage.pojo.Attend">
+        <result column="attend_course_user_id" jdbcType="BIGINT" property="attendCourseUserId"/>
+        <result column="attend_arrive_time" jdbcType="TIMESTAMP" property="attendArriveTime"/>
+        <result column="attend_leave_time" jdbcType="TIMESTAMP" property="attendLeaveTime"/>
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="attend_status" jdbcType="INTEGER" property="attendStatus"/>
+    </resultMap>
+    <!-- 用于统计签到信息 -->
+    <resultMap id="AttendStatisMap" type="com.ncepu.feilong505.LabManage.vo.AttendStatis">
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="attend_time" jdbcType="INTEGER" property="attendTime"/>
+        <result column="user_class" jdbcType="VARCHAR" property="userClass"/>
+        <result column="user_num" jdbcType="VARCHAR" property="userNum"/>
+    </resultMap>
+    <!-- 用于文件输出的map -->
+    <resultMap id="AttendFileOutMap" type="com.ncepu.feilong505.LabManage.vo.AttendFileOut">
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_class" jdbcType="VARCHAR" property="userClass"/>
+        <result column="user_num" jdbcType="VARCHAR" property="userNum"/>
+        <result column="attend_id" jdbcType="BIGINT" property="attendId"/>
+    </resultMap>
 
-	<resultMap id="AttendFileOutMapWithCondition"
-		type="com.ncepu.feilong505.LabManage.vo.AttendFileOutWithCondition"
-	>
-		<result column="user_id" jdbcType="BIGINT" property="userId" />
-		<result column="user_name" jdbcType="VARCHAR" property="userName" />
-		<result column="user_class" jdbcType="VARCHAR" property="userClass" />
-		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
-		<result column="course_id" jdbcType="BIGINT" property="courseId" />
-		<result column="exam_date" jdbcType="TIMESTAMP" property="examDate" />
-	</resultMap>
+    <resultMap id="AttendFileOutMapWithCondition"
+               type="com.ncepu.feilong505.LabManage.vo.AttendFileOutWithCondition"
+    >
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_class" jdbcType="VARCHAR" property="userClass"/>
+        <result column="user_num" jdbcType="VARCHAR" property="userNum"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="exam_date" jdbcType="TIMESTAMP" property="examDate"/>
+    </resultMap>
 
-	<sql id="Example_Where_Clause">
-		<where>
-			<foreach collection="oredCriteria" item="criteria" separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" prefixOverrides="and" suffix=")">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
-									#{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach close=")" collection="criterion.value" item="listItem" open="("
-										separator=","
-									>
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Update_By_Example_Where_Clause">
-		<where>
-			<foreach collection="example.oredCriteria" item="criteria" separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" prefixOverrides="and" suffix=")">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
-									#{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach close=")" collection="criterion.value" item="listItem" open="("
-										separator=","
-									>
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Base_Column_List">
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and
+                                    #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=","
+                                    >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and
+                                    #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=","
+                                    >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
 		attend_course_user_id, attend_arrive_time, attend_leave_time, id, attend_status
 	</sql>
 
-	<!-- 以下两个sql都使用了cte，对数据库本版本有要求，必须为8.0及以上 -->
-	<!--获取班级签到统计列表 -->
-	<select id="selectAttendStatis" resultMap="AttendStatisMap">
+    <!-- 以下两个sql都使用了cte，对数据库本版本有要求，必须为8.0及以上 -->
+    <!--获取班级签到统计列表 -->
+    <select id="selectAttendStatis" resultMap="AttendStatisMap">
 		with
 		a (id,user_id)as(
 		select
@@ -155,57 +155,57 @@
 		and
 		c.user_id =a.user_id
 	</select>
-	<!--通过课堂ID与签到id查询签到列表 -->
-	<select id="selectAttendByCourse" resultMap="AttendStatisMap">
-		with
-		a as(
-		select id course_user_id
-		,user_id
-		from course_user
-		where
-		course_id = #{courseId}
-		),
-		b as(
-		select attend_course_user_id
-		from attend
-		where
-		attend_course_user_id =
-		any (select course_user_id from
-		a)
-		and attend.id = #{id}
-		)
-		select
-		id user_id,
-		user_name,
-		user_class,
-		user_num
-		from `user`
-		where `user`.id =
-		any
-		(
-		select user_id
-		from course_user
-		where
-		<if test="flag == 0">
-			course_user.id = any
-			(select * from b)
-		</if>
-		<if test="flag == 1">
-			course_user.id
-			not in (
-			select *
-			from b)
-			and
-			course_user.id
-			in (
-			select course_user_id
-			from
-			a)
-		</if>
-		)
-	</select>
-	<!--获取某课堂某次签到的签到人数统计 -->
-	<select id="selectAttendCount" resultType="java.lang.Integer">
+    <!--通过课堂ID与签到id查询签到列表 -->
+    <select id="selectAttendByCourse" resultMap="AttendStatisMap">
+        with
+        a as(
+        select id course_user_id
+        ,user_id
+        from course_user
+        where
+        course_id = #{courseId}
+        ),
+        b as(
+        select attend_course_user_id
+        from attend
+        where
+        attend_course_user_id =
+        any (select course_user_id from
+        a)
+        and attend.id = #{id}
+        )
+        select
+        id user_id,
+        user_name,
+        user_class,
+        user_num
+        from `user`
+        where `user`.id =
+        any
+        (
+        select user_id
+        from course_user
+        where
+        <if test="flag == 0">
+            course_user.id = any
+            (select * from b)
+        </if>
+        <if test="flag == 1">
+            course_user.id
+            not in (
+            select *
+            from b)
+            and
+            course_user.id
+            in (
+            select course_user_id
+            from
+            a)
+        </if>
+        )
+    </select>
+    <!--获取某课堂某次签到的签到人数统计 -->
+    <select id="selectAttendCount" resultType="java.lang.Integer">
 		with
 		a as(
 		select id course_user_id
@@ -226,8 +226,8 @@
 		and id = #{id}
 		)
 	</select>
-	<!-- 获取某个班级中的所有用户的所有签到记录，按照由内到外（由先到后）分别按照userId，id，排序 -->
-	<select id="selectAttendCourseRecord" resultMap="AttendFileOutMap">
+    <!-- 获取某个班级中的所有用户的所有签到记录，按照由内到外（由先到后）分别按照userId，id，排序 -->
+    <select id="selectAttendCourseRecord" resultMap="AttendFileOutMap">
 		SELECT
 		DISTINCT
 		user.id user_id,
@@ -248,82 +248,81 @@
 		user.user_num,attend.id
 	</select>
 
-	<!-- 通过条件查询签到记录 -->
-	<select id="selectAttendWithCondition" resultMap="AttendFileOutMapWithCondition">
-		select
-		user.user_class ,
-		user.user_num,
-		user.user_name,
-		cu.course_id,
-		attend.attend_arrive_time
-		exam_date
-		from
-		attend
-		left join course_user cu on
-		cu.id = attend.attend_course_user_id
-		left join user
-		on
-		cu.user_id = user.id
-		<where>
-			<if test="userNum != null "> user_num like "%"#{userNum}"%"</if>
-			<if test="userName != null "> user_name like "%"#{userName}"%"</if>
-			<if test="userClass != null "> user_class like "%"#{userClass}"%"</if>
-			<if test="courseId != null "> course_id like "%"#{courseId}"%"</if>
-			<if test="startTime != null "> exam_date &gt;= #{startTime}</if>
-			<if test="endTime != null "> exam_date &lt;= #{endTime}</if>
-		</where>
-		order by exam_date asc
-		<if test="startNum != null and pageSize != null">
-			limit #{startNum},#{pageSize}
-		</if>
-	</select>
+    <!-- 通过条件查询签到记录 -->
+    <select id="selectAttendWithCondition" resultMap="AttendFileOutMapWithCondition">
+        select
+        user.user_class ,
+        user.user_num,
+        user.user_name,
+        cu.course_id,
+        attend.attend_arrive_time as exam_date
+        from
+        attend
+        left join course_user cu on
+        cu.id = attend.attend_course_user_id
+        left join user
+        on
+        cu.user_id = user.id
+        <where>
+            <if test="userNum != null ">and user_num like "%"#{userNum}"%"</if>
+            <if test="userName != null ">and user_name like "%"#{userName}"%"</if>
+            <if test="userClass != null ">and user_class like "%"#{userClass}"%"</if>
+            <if test="courseId != null ">and course_id = #{courseId}</if>
+            <if test="startTime != null ">and attend.attend_arrive_time &gt;= #{startTime}</if>
+            <if test="endTime != null ">and attend.attend_arrive_time &lt;= #{endTime}</if>
+        </where>
+        order by attend.attend_arrive_time
+        <if test="startNum != null and pageSize != null">
+            limit #{startNum},#{pageSize}
+        </if>
+    </select>
 
-	<select id="selectAttendWithConditionCount" resultType="java.lang.Integer">
-		select count(*)
-		from
-		attend
-		left join course_user cu on
-		cu.id = attend.attend_course_user_id
-		left join
-		user
-		on
-		cu.user_id = user.id
-		<where>
-			<if test="userNum != null "> user_num like "%"#{userNum}"%"</if>
-			<if test="userName != null "> user_name like "%"#{userName}"%"</if>
-			<if test="userClass != null "> user_class like "%"#{userClass}"%"</if>
-			<if test="courseId != null "> course_id like "%"#{courseId}"%"</if>
-			<if test="startTime != null "> exam_date &gt;= #{startTime}</if>
-			<if test="endTime != null "> exam_date &lt;= #{endTime}</if>
-		</where>
-	</select>
+    <select id="selectAttendWithConditionCount" resultType="java.lang.Integer">
+        select count(*)
+        from
+        attend
+        left join course_user cu on
+        cu.id = attend.attend_course_user_id
+        left join
+        user
+        on
+        cu.user_id = user.id
+        <where>
+            <if test="userNum != null ">and user_num like "%"#{userNum}"%"</if>
+            <if test="userName != null ">and user_name like "%"#{userName}"%"</if>
+            <if test="userClass != null ">and user_class like "%"#{userClass}"%"</if>
+            <if test="courseId != null ">and course_id like "%"#{courseId}"%"</if>
+            <if test="startTime != null ">and attend.attend_arrive_time &gt;= #{startTime}</if>
+            <if test="endTime != null ">and attend.attend_arrive_time &lt;= #{endTime}</if>
+        </where>
+    </select>
 
 
-	<select id="selectByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultMap="BaseResultMap"
-	>
-		select
-		<if test="distinct">
-			distinct
-		</if>
-		<include refid="Base_Column_List" />
-		from attend
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
-	<delete id="deleteByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample"
-	>
-		delete from attend
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</delete>
-	<insert id="insert" parameterType="com.ncepu.feilong505.LabManage.pojo.Attend">
+    <select id="selectByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultMap="BaseResultMap"
+    >
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from attend
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample"
+    >
+        delete from attend
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ncepu.feilong505.LabManage.pojo.Attend">
 		insert into attend (attend_course_user_id,
 		attend_arrive_time,
 		attend_leave_time, id, attend_status
@@ -335,85 +334,85 @@
 		#{attendStatus,jdbcType=INTEGER}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.ncepu.feilong505.LabManage.pojo.Attend">
-		insert into attend
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="attendCourseUserId != null">
-				attend_course_user_id,
-			</if>
-			<if test="attendArriveTime != null">
-				attend_arrive_time,
-			</if>
-			<if test="attendLeaveTime != null">
-				attend_leave_time,
-			</if>
-			<if test="id != null">
-				id,
-			</if>
-			<if test="attendStatus != null">
-				attend_status,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="attendCourseUserId != null">
-				#{attendCourseUserId,jdbcType=BIGINT},
-			</if>
-			<if test="attendArriveTime != null">
-				#{attendArriveTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="attendLeaveTime != null">
-				#{attendLeaveTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="id != null">
-				#{id,jdbcType=BIGINT},
-			</if>
-			<if test="attendStatus != null">
-				#{attendStatus,jdbcType=INTEGER},
-			</if>
-		</trim>
-	</insert>
-	<select id="countByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultType="java.lang.Long"
-	>
-		select count(*) from attend
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</select>
-	<update id="updateByExampleSelective" parameterType="map">
-		update attend
-		<set>
-			<if test="record.attendCourseUserId != null">
-				attend_course_user_id = #{record.attendCourseUserId,jdbcType=BIGINT},
-			</if>
-			<if test="record.attendArriveTime != null">
-				attend_arrive_time = #{record.attendArriveTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.attendLeaveTime != null">
-				attend_leave_time = #{record.attendLeaveTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.id != null">
-				id = #{record.id,jdbcType=BIGINT},
-			</if>
-			<if test="record.attendStatus != null">
-				attend_status = #{record.attendStatus,jdbcType=INTEGER},
-			</if>
-		</set>
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByExample" parameterType="map">
-		update attend
-		set attend_course_user_id = #{record.attendCourseUserId,jdbcType=BIGINT},
-		attend_arrive_time = #{record.attendArriveTime,jdbcType=TIMESTAMP},
-		attend_leave_time =
-		#{record.attendLeaveTime,jdbcType=TIMESTAMP},
-		id = #{record.id,jdbcType=BIGINT},
-		attend_status =
-		#{record.attendStatus,jdbcType=INTEGER}
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
+    <insert id="insertSelective" parameterType="com.ncepu.feilong505.LabManage.pojo.Attend">
+        insert into attend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="attendCourseUserId != null">
+                attend_course_user_id,
+            </if>
+            <if test="attendArriveTime != null">
+                attend_arrive_time,
+            </if>
+            <if test="attendLeaveTime != null">
+                attend_leave_time,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="attendStatus != null">
+                attend_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendCourseUserId != null">
+                #{attendCourseUserId,jdbcType=BIGINT},
+            </if>
+            <if test="attendArriveTime != null">
+                #{attendArriveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="attendLeaveTime != null">
+                #{attendLeaveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="attendStatus != null">
+                #{attendStatus,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.AttendExample" resultType="java.lang.Long"
+    >
+        select count(*) from attend
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update attend
+        <set>
+            <if test="record.attendCourseUserId != null">
+                attend_course_user_id = #{record.attendCourseUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.attendArriveTime != null">
+                attend_arrive_time = #{record.attendArriveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.attendLeaveTime != null">
+                attend_leave_time = #{record.attendLeaveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.attendStatus != null">
+                attend_status = #{record.attendStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update attend
+        set attend_course_user_id = #{record.attendCourseUserId,jdbcType=BIGINT},
+        attend_arrive_time = #{record.attendArriveTime,jdbcType=TIMESTAMP},
+        attend_leave_time =
+        #{record.attendLeaveTime,jdbcType=TIMESTAMP},
+        id = #{record.id,jdbcType=BIGINT},
+        attend_status =
+        #{record.attendStatus,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
 </mapper>

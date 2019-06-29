@@ -4,29 +4,40 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ncepu.feilong505.LabManage.common.ResponseBody;
 
+
 /**
- * TODO 图片处理
- * 
+ * TODO 图片上传
+ *
  * @author xtysummer1121@foxmail.com
- * @date 2019年6月9日
+ * @className com.ncepu.feilong505.LabManage.service.FileService
+ * @methodName
+ * @date 2019-06-29
+ * @return
  */
 public interface FileService {
-    /**
-     * 
-     * TODO 上传图片，获得图片url
-     * @author xtysummer1121@foxmail.com
-     * @date 2019年6月9日
-     * @param imageFile
-     * @return
-     */
-    public ResponseBody uploadImage(MultipartFile imageFile);
+	/**
+	 * TODO 上传图片，获得图片url
+	 *
+	 * @param imageFile 上传的流图片
+	 * @return com.ncepu.feilong505.LabManage.common.ResponseBody
+	 * @className FileService
+	 * @author xtysummer1121@foxmail.com
+	 * @methodName uploadImage
+	 * @date 2019-06-29
+	 */
+	public ResponseBody uploadImage(MultipartFile imageFile);
 
-    /**
-     * TODO  上传普通文件
-     * @author xtysummer1121@foxmail.com
-     * @date 2019年6月14日
-     * @param file
-     * @return
-     */
-    public ResponseBody uploadFile(MultipartFile file);
+
+	/**
+	 * TODO 上传文件，获取文件url
+	 *
+	 * @param file 上传的流文件
+	 * @return com.ncepu.feilong505.LabManage.common.ResponseBody
+	 * @className FileService
+	 * @author xtysummer1121@foxmail.com
+	 * @methodName uploadFile
+	 * @date 2019-06-29
+	 */
+	public ResponseBody uploadFile(MultipartFile file);
+
 }
