@@ -12,7 +12,10 @@ HELP.md
 .sts4-cache
 application-dev.yml
 application-pro.yml
+generatorConfig.xml
 labmanage.littlee.top.pfx
+/files/
+/images/
 
 
 ### IntelliJ IDEA ###
