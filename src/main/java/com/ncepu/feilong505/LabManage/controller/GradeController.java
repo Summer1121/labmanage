@@ -103,6 +103,21 @@ public class GradeController {
 		return JSONObject.toJSONString(gradeService.downloadUserGrade(bean.getCourseId(), response));
 	}
 
+	/**
+	 * TODO 某课堂学生成绩列表
+	 *
+	 * @param bean 包含courseId的json对象封装
+	 * @return java.lang.String
+	 * @className GradeController
+	 * @author xtysummer1121@foxmail.com
+	 * @methodName getGradeList
+	 * @date 2019-07-09
+	 */
+	@RequestMapping("/getlist")
+	public String getGradeList(@RequestBody GradeBean bean) {
+		return JSONObject.toJSONString(gradeService.getUserGrade(bean.getCourseId()));
+	}
+
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor

@@ -1,25 +1,19 @@
 package com.ncepu.feilong505.LabManage.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.ncepu.feilong505.LabManage.common.ResponseBody;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Component;
-
-import com.alibaba.fastjson.JSONObject;
-import com.ncepu.feilong505.LabManage.common.ResponseBody;
-
 import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import java.util.regex.Pattern;
 
 /**
  * TODO
- * 
+ *
  * @author xtysummer1121@foxmail.com
  * @date 2019年4月3日
  */
@@ -30,16 +24,18 @@ public class LoginFilter implements Filter {
 	ResponseBody responseBody;
 
 	// 例外的uri
-	final static String[] exceptionUrls = new String[] { 
-		"/user/login",
-		"/user/wxlogin",
-		"/user/regis" ,
-		"/getcert"
-		};
+	final static String[] exceptionUrls = new String[]{
+			"^/user/login$",
+			"^/user/wxlogin$",
+			"^/user/regis$",
+			"^/getcert$",
+			"^/image/user/get/*",
+			"^/file/user/get/*"
+	};
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
 	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
@@ -48,8 +44,7 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
-		if ((ifException((HttpServletRequest) request)) == true)
-		{
+		if ((ifException((HttpServletRequest) request)) == true) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -73,9 +68,16 @@ public class LoginFilter implements Filter {
 
 	private boolean ifException(HttpServletRequest request) {
 		String url = request.getRequestURI().toString();
+		Pattern pattern = null;
+
 		for (String str : exceptionUrls) {
-			if (str.equals(url))
+			pattern=Pattern.compile(str);
+			if(pattern.matcher(url).find())
+			{
 				return true;
+			}
+//			if (str.equals(url))
+//				return true;
 		}
 		return false;
 	}

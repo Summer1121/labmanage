@@ -8,6 +8,8 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <resultMap id="GradeVoMap" type="com.ncepu.feilong505.LabManage.vo.GradeVO">
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="group_id" jdbcType="INTEGER" property="groupId"/>
         <result column="user_num" jdbcType="VARCHAR" property="userNum"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="user_class" jdbcType="VARCHAR" property="userClass"/>
@@ -79,7 +81,7 @@
 
     <!--获取某班级学生的成绩-->
     <select id="selectGradeByCourse" resultMap="GradeVoMap">
-        select user_num,user_name,user_class,score
+        select `user`.id user_id,user_num,user_name,group_id,user_class,score
         from course_user cu
         left join `user`
         on cu.user_id = `user`.id
@@ -88,7 +90,6 @@
         where cu.course_id = #{courseId}
         order by user_num
     </select>
-
 
 
     <select id="selectByExample" parameterType="com.ncepu.feilong505.LabManage.pojo.GradeExample"

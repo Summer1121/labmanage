@@ -108,6 +108,7 @@ public class GradeServiceImpl implements GradeService {
 	@Override
 	public ResponseBody addGroupGrade(Integer groupId, Long courseId, Double score, Long teacherId) {
 		ResponseBody responseBody = new ResponseBody();
+		int count = 0;
 		try {
 			if (ifTheTeacher(teacherId, courseId) == false) {
 				responseBody.error("身份与本课堂教师不匹配");
@@ -121,22 +122,23 @@ public class GradeServiceImpl implements GradeService {
 			}
 			Grade grade = new Grade();
 			grade.setUpdateTime(new Date());
-			int count = 0;
+
 			for (Long cu : courseUsers) {
-				// 如果已经存在，更新数据
+				// 如果已经存在，跳过
 				if (gradeMapper.selectGradeByCourseUser(cu) != null) {
 					continue;
 				} else {
 					// 否则新增记录
-					grade.setScore(score).setId(cu);
+					grade.setScore(score).setCourseUserId(cu);
 					count += gradeMapper.insertSelective(grade);
 				}
 			}
-			responseBody.success("处理了" + count + "条成绩");
+			responseBody.success();
 		} catch (Exception e) {
 			responseBody.error();
 			e.printStackTrace();
 		}
+		responseBody.setData("处理了" + count + "条成绩");
 		return responseBody;
 
 	}
@@ -170,7 +172,7 @@ public class GradeServiceImpl implements GradeService {
 				Grade temp = gradeMapper.selectGradeByCourseUser(cu.getId());
 				// 如果不存在本成绩，添加
 				if (temp == null) {
-					grade.setCourseUserId(cu.getId()).setScore(gb.getScore());
+					grade.setCourseUserId(cu.getId()).setScore(gb.getScore()).setUpdateTime(new Date());
 					count += gradeMapper.insertSelective(grade);
 				}
 				// 存在本课堂，修改
@@ -210,7 +212,8 @@ public class GradeServiceImpl implements GradeService {
 			}
 			// 用户成绩已存在
 			temp.setScore(score).setUpdateTime(new Date());
-			responseBody.success("修改成功");
+			if (gradeMapper.updateByPrimaryKey(temp.setScore(score).setUpdateTime(new Date())) == 1)
+				responseBody.success("修改成功");
 		} catch (Exception e) {
 			responseBody.error();
 			e.printStackTrace();
@@ -276,5 +279,21 @@ public class GradeServiceImpl implements GradeService {
 		return responseBody;
 	}
 
-
+	@Override
+	public ResponseBody getUserGrade(Long courseId) {
+		ResponseBody responseBody = new ResponseBody();
+		try {
+			List<GradeVO> grades = gradeMapper.selectGradeByCourse(courseId);
+			//如果为空，表示课堂没有学生
+			if (grades.isEmpty()) {
+				responseBody.error("未查询到课堂用户信息");
+				return responseBody;
+			}
+			responseBody.success(grades);
+		} catch (Exception e) {
+			e.printStackTrace();
+			responseBody.error();
+		}
+		return responseBody;
+	}
 }

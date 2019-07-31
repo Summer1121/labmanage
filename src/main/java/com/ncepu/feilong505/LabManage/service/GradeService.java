@@ -60,7 +60,7 @@ public interface GradeService {
 	public ResponseBody updateUserGrade(Long userId, Long courseId, Double score, Long teacherId);
 
 	/**
-	 * TODO 获取某班级按照学号排序的得分情况
+	 * TODO 下载某班级按照学号排序的得分情况
 	 *
 	 * @param courseId 课堂id
 	 * @return com.ncepu.feilong505.LabManage.common.ResponseBody
@@ -70,4 +70,16 @@ public interface GradeService {
 	 * @date 2019-06-30
 	 */
 	public ResponseBody downloadUserGrade(Long courseId, HttpServletResponse response);
+
+	/**
+	 * TODO 获取某班级按照学号排序的得分情况
+	 *
+	 * @param courseId 课堂Id
+	 * @return com.ncepu.feilong505.LabManage.common.ResponseBody
+	 * @className GradeService
+	 * @author xtysummer1121@foxmail.com
+	 * @methodName getUserGrade
+	 * @date 2019-07-09
+	 */
+	public ResponseBody getUserGrade(Long courseId);
 }

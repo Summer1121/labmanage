@@ -1,179 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ncepu.feilong505.LabManage.mapper.CourseMapper">
-	<resultMap id="BaseResultMap" type="com.ncepu.feilong505.LabManage.pojo.Course">
-		<id column="id" jdbcType="BIGINT" property="id" />
-		<result column="course_name" jdbcType="VARCHAR" property="courseName" />
-		<result column="course_teacher_id" jdbcType="BIGINT" property="courseTeacherId" />
-		<result column="course_status" jdbcType="INTEGER" property="courseStatus" />
-		<result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime" />
-		<result column="course_detail" jdbcType="VARCHAR" property="courseDetail" />
-		<result column="course_is_group" jdbcType="INTEGER" property="courseIsGroup" />
-		<result column="course_attend_sum" jdbcType="INTEGER" property="courseAttendSum" />
-	</resultMap>
-	<resultMap id="CourseVOmap" type="com.ncepu.feilong505.LabManage.vo.CourseVO">
-		<id column="id" jdbcType="BIGINT" property="id" />
-		<result column="course_name" jdbcType="VARCHAR" property="courseName" />
-		<result column="course_teacher_id" jdbcType="BIGINT" property="teacherUserId" />
-		<result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
-		<result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
-		<result column="course_status" jdbcType="INTEGER" property="courseStatus" />
-		<result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime" />
-		<result column="course_detail" jdbcType="VARCHAR" property="courseDetail" />
-		<result column="student_num" jdbcType="INTEGER" property="studentNum" />
-	</resultMap>
+    <resultMap id="BaseResultMap" type="com.ncepu.feilong505.LabManage.pojo.Course">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="course_teacher_id" jdbcType="BIGINT" property="courseTeacherId"/>
+        <result column="course_status" jdbcType="INTEGER" property="courseStatus"/>
+        <result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime"/>
+        <result column="course_detail" jdbcType="VARCHAR" property="courseDetail"/>
+        <result column="course_is_group" jdbcType="INTEGER" property="courseIsGroup"/>
+        <result column="course_attend_sum" jdbcType="INTEGER" property="courseAttendSum"/>
+    </resultMap>
+    <resultMap id="CourseVOmap" type="com.ncepu.feilong505.LabManage.vo.CourseVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="course_teacher_id" jdbcType="BIGINT" property="teacherUserId"/>
+        <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+        <result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone"/>
+        <result column="course_status" jdbcType="INTEGER" property="courseStatus"/>
+        <result column="course_build_time" jdbcType="TIMESTAMP" property="courseBuildTime"/>
+        <result column="course_detail" jdbcType="VARCHAR" property="courseDetail"/>
+        <result column="student_num" jdbcType="INTEGER" property="studentNum"/>
+    </resultMap>
 
-	<sql id="Example_Where_Clause">
-		<where>
-			<foreach collection="oredCriteria" item="criteria" separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" prefixOverrides="and" suffix=")">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach close=")" collection="criterion.value" item="listItem" open="("
-										separator=","
-									>
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Update_By_Example_Where_Clause">
-		<where>
-			<foreach collection="example.oredCriteria" item="criteria" separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" prefixOverrides="and" suffix=")">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach close=")" collection="criterion.value" item="listItem" open="("
-										separator=","
-									>
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Base_Column_List">
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=","
+                                    >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=","
+                                    >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
 		id, course_name, course_teacher_id, course_status, course_build_time, course_detail,
 		course_is_group, course_attend_sum
 	</sql>
 
-	<select id="selectCourseByUser" resultMap="CourseVOmap">
-		with a as
-		(
-			select course_user.course_id
-			from course_user
-			where
-			course_user.user_id = #{userId}
-		)
-		,b as(
-		select * from course
-			where
-			exists 
-			(
-				select *
-				from a 
-				where course.id=a.course_id
-				<if test="status != null">
-					and course_status = #{status}
-				</if>
-			)
-		)
-		,c as
-		(
-			select course_user.course_id,count(course_user.id) as student_num
-			from course_user
-			where exists
-			(
-				select *
-				from a
-				where
-				course_user.course_id = a.course_id
-			)
-			group by course_user.course_id
-		)
-		select
-		b.id
-		,b.course_teacher_id
-		,b.course_name
-		,b.course_status
-		,user.user_name teacher_name
-		,user.user_phone teacher_phone
-		,c.student_num
-		from
-		a,b,c,user
-		where user.id = b.course_teacher_id
-		and a.course_id=b.id
-		and a.course_id=c.course_id
-	</select>
-	<select id="selectByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultMap="BaseResultMap"
-	>
-		select
-		<if test="distinct">
-			distinct
-		</if>
-		<include refid="Base_Column_List" />
-		from course
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from course
-		where id = #{id,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectCourseByUser" resultMap="CourseVOmap">
+        with a as
+        (
+        select course_user.course_id
+        from course_user
+        where
+        course_user.user_id = #{userId}
+        )
+        ,b as(
+        select * from course
+        where
+        exists
+        (
+        select *
+        from a
+        where course.id=a.course_id
+        <if test="status != null">
+            and course_status = #{status}
+        </if>
+        )
+        )
+        ,c as
+        (
+        select course_user.course_id,count(course_user.id) as student_num
+        from course_user
+        where exists
+        (
+        select *
+        from a
+        where
+        course_user.course_id = a.course_id
+        )
+        group by course_user.course_id
+        )
+        select
+        b.id
+        ,b.course_teacher_id
+        ,b.course_name
+        ,b.course_status
+        ,user.user_name teacher_name
+        ,user.user_phone teacher_phone
+        ,c.student_num
+        from
+        a,b,c,user
+        where user.id = b.course_teacher_id
+        and a.course_id=b.id
+        and a.course_id=c.course_id
+    </select>
+
+    <select id="selectCourseByTeacher" resultMap="CourseVOmap">
+        select
+            course.id id
+            ,course_name
+            ,course_teacher_id
+            ,user_name teacher_name
+            ,user_phone teacher_phone
+            ,course_status
+            ,course_build_time
+            ,ifnull(student_num,0) student_num
+        from course
+        left join
+        (select course_id,count(course_id) student_num from course_user group by course_id) s
+            on s.course_id = course.id
+        left join `user`
+            on `user`.id =  course.course_teacher_id
+        <where>
+            `user`.id = #{teacherId}
+            <if test="status != null">and course.course_status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultMap="BaseResultMap"
+    >
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from course
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from course
 		where id =
 		#{id,jdbcType=BIGINT}
 	</delete>
-	<delete id="deleteByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample"
-	>
-		delete from course
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</delete>
-	<insert id="insert" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
+    <delete id="deleteByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample"
+    >
+        delete from course
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
 		insert into course (id, course_name, course_teacher_id,
 		course_status, course_build_time, course_detail,
 		course_is_group, course_attend_sum)
@@ -184,150 +207,150 @@
 		#{courseIsGroup,jdbcType=INTEGER},
 		#{courseAttendSum,jdbcType=INTEGER})
 	</insert>
-	<insert id="insertSelective" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
-		insert into course
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="courseName != null">
-				course_name,
-			</if>
-			<if test="courseTeacherId != null">
-				course_teacher_id,
-			</if>
-			<if test="courseStatus != null">
-				course_status,
-			</if>
-			<if test="courseBuildTime != null">
-				course_build_time,
-			</if>
-			<if test="courseDetail != null">
-				course_detail,
-			</if>
-			<if test="courseIsGroup != null">
-				course_is_group,
-			</if>
-			<if test="courseAttendSum != null">
-				course_attend_sum,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=BIGINT},
-			</if>
-			<if test="courseName != null">
-				#{courseName,jdbcType=VARCHAR},
-			</if>
-			<if test="courseTeacherId != null">
-				#{courseTeacherId,jdbcType=BIGINT},
-			</if>
-			<if test="courseStatus != null">
-				#{courseStatus,jdbcType=INTEGER},
-			</if>
-			<if test="courseBuildTime != null">
-				#{courseBuildTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="courseDetail != null">
-				#{courseDetail,jdbcType=VARCHAR},
-			</if>
-			<if test="courseIsGroup != null">
-				#{courseIsGroup,jdbcType=INTEGER},
-			</if>
-			<if test="courseAttendSum != null">
-				#{courseAttendSum,jdbcType=INTEGER},
-			</if>
-		</trim>
-	</insert>
-	<select id="countByExample"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultType="java.lang.Long"
-	>
-		select count(*) from course
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</select>
-	<update id="updateByExampleSelective" parameterType="map">
-		update course
-		<set>
-			<if test="record.id != null">
-				id = #{record.id,jdbcType=BIGINT},
-			</if>
-			<if test="record.courseName != null">
-				course_name = #{record.courseName,jdbcType=VARCHAR},
-			</if>
-			<if test="record.courseTeacherId != null">
-				course_teacher_id = #{record.courseTeacherId,jdbcType=BIGINT},
-			</if>
-			<if test="record.courseStatus != null">
-				course_status = #{record.courseStatus,jdbcType=INTEGER},
-			</if>
-			<if test="record.courseBuildTime != null">
-				course_build_time = #{record.courseBuildTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.courseDetail != null">
-				course_detail = #{record.courseDetail,jdbcType=VARCHAR},
-			</if>
-			<if test="record.courseIsGroup != null">
-				course_is_group = #{record.courseIsGroup,jdbcType=INTEGER},
-			</if>
-			<if test="record.courseAttendSum != null">
-				course_attend_sum = #{record.courseAttendSum,jdbcType=INTEGER},
-			</if>
-		</set>
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByExample" parameterType="map">
-		update course
-		set id = #{record.id,jdbcType=BIGINT},
-		course_name =
-		#{record.courseName,jdbcType=VARCHAR},
-		course_teacher_id =
-		#{record.courseTeacherId,jdbcType=BIGINT},
-		course_status = #{record.courseStatus,jdbcType=INTEGER},
-		course_build_time = #{record.courseBuildTime,jdbcType=TIMESTAMP},
-		course_detail =
-		#{record.courseDetail,jdbcType=VARCHAR},
-		course_is_group =
-		#{record.courseIsGroup,jdbcType=INTEGER},
-		course_attend_sum =
-		#{record.courseAttendSum,jdbcType=INTEGER}
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByPrimaryKeySelective"
-		parameterType="com.ncepu.feilong505.LabManage.pojo.Course"
-	>
-		update course
-		<set>
-			<if test="courseName != null">
-				course_name = #{courseName,jdbcType=VARCHAR},
-			</if>
-			<if test="courseTeacherId != null">
-				course_teacher_id = #{courseTeacherId,jdbcType=BIGINT},
-			</if>
-			<if test="courseStatus != null">
-				course_status = #{courseStatus,jdbcType=INTEGER},
-			</if>
-			<if test="courseBuildTime != null">
-				course_build_time = #{courseBuildTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="courseDetail != null">
-				course_detail = #{courseDetail,jdbcType=VARCHAR},
-			</if>
-			<if test="courseIsGroup != null">
-				course_is_group = #{courseIsGroup,jdbcType=INTEGER},
-			</if>
-			<if test="courseAttendSum != null">
-				course_attend_sum = #{courseAttendSum,jdbcType=INTEGER},
-			</if>
-		</set>
-		where id = #{id,jdbcType=BIGINT}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
+    <insert id="insertSelective" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="courseName != null">
+                course_name,
+            </if>
+            <if test="courseTeacherId != null">
+                course_teacher_id,
+            </if>
+            <if test="courseStatus != null">
+                course_status,
+            </if>
+            <if test="courseBuildTime != null">
+                course_build_time,
+            </if>
+            <if test="courseDetail != null">
+                course_detail,
+            </if>
+            <if test="courseIsGroup != null">
+                course_is_group,
+            </if>
+            <if test="courseAttendSum != null">
+                course_attend_sum,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="courseName != null">
+                #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseTeacherId != null">
+                #{courseTeacherId,jdbcType=BIGINT},
+            </if>
+            <if test="courseStatus != null">
+                #{courseStatus,jdbcType=INTEGER},
+            </if>
+            <if test="courseBuildTime != null">
+                #{courseBuildTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="courseDetail != null">
+                #{courseDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="courseIsGroup != null">
+                #{courseIsGroup,jdbcType=INTEGER},
+            </if>
+            <if test="courseAttendSum != null">
+                #{courseAttendSum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.CourseExample" resultType="java.lang.Long"
+    >
+        select count(*) from course
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update course
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.courseName != null">
+                course_name = #{record.courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.courseTeacherId != null">
+                course_teacher_id = #{record.courseTeacherId,jdbcType=BIGINT},
+            </if>
+            <if test="record.courseStatus != null">
+                course_status = #{record.courseStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.courseBuildTime != null">
+                course_build_time = #{record.courseBuildTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.courseDetail != null">
+                course_detail = #{record.courseDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.courseIsGroup != null">
+                course_is_group = #{record.courseIsGroup,jdbcType=INTEGER},
+            </if>
+            <if test="record.courseAttendSum != null">
+                course_attend_sum = #{record.courseAttendSum,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update course
+        set id = #{record.id,jdbcType=BIGINT},
+        course_name =
+        #{record.courseName,jdbcType=VARCHAR},
+        course_teacher_id =
+        #{record.courseTeacherId,jdbcType=BIGINT},
+        course_status = #{record.courseStatus,jdbcType=INTEGER},
+        course_build_time = #{record.courseBuildTime,jdbcType=TIMESTAMP},
+        course_detail =
+        #{record.courseDetail,jdbcType=VARCHAR},
+        course_is_group =
+        #{record.courseIsGroup,jdbcType=INTEGER},
+        course_attend_sum =
+        #{record.courseAttendSum,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.ncepu.feilong505.LabManage.pojo.Course"
+    >
+        update course
+        <set>
+            <if test="courseName != null">
+                course_name = #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseTeacherId != null">
+                course_teacher_id = #{courseTeacherId,jdbcType=BIGINT},
+            </if>
+            <if test="courseStatus != null">
+                course_status = #{courseStatus,jdbcType=INTEGER},
+            </if>
+            <if test="courseBuildTime != null">
+                course_build_time = #{courseBuildTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="courseDetail != null">
+                course_detail = #{courseDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="courseIsGroup != null">
+                course_is_group = #{courseIsGroup,jdbcType=INTEGER},
+            </if>
+            <if test="courseAttendSum != null">
+                course_attend_sum = #{courseAttendSum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ncepu.feilong505.LabManage.pojo.Course">
 		update course
 		set course_name =
 		#{courseName,jdbcType=VARCHAR},
