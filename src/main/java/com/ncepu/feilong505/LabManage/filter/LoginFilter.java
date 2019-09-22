@@ -71,9 +71,8 @@ public class LoginFilter implements Filter {
 		Pattern pattern = null;
 
 		for (String str : exceptionUrls) {
-			pattern=Pattern.compile(str);
-			if(pattern.matcher(url).find())
-			{
+			pattern = Pattern.compile(str);
+			if (pattern.matcher(url).find()) {
 				return true;
 			}
 //			if (str.equals(url))
