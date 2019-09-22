@@ -11,8 +11,8 @@ public class SMSUtilTest {
 
 	@Test
 	public void sendMessage() {
-		SMSUtil.sendMessage(new SMSUtil.MessageParam().setMobile("18583616752")
-				.setSignId(8724)
+		SMSUtil.sendMessage(new SMSUtil.MessageParam().setMobile("12345678910")
+				.setSignId(1111)
 				.setTempId(1)
 				.setTempPara("\"code\":\"12345\""));
 	}
